@@ -1,4 +1,4 @@
-#Unity Snippets
+# Unity Snippets
 
 > A collection of code snippets I found useful while coding in Unity.
 
