@@ -4,16 +4,15 @@
 
 ```csharp
 using UnityEngine;
-using System.Collections;
 
-public class GameObjectController : MonoBehaviour {
+public class DraggingObjectController : MonoBehaviour {
 
-    private Vector2 GetMousePosition () {
+    private Vector3 GetMousePosition () {
 
         return Camera.main.ScreenToWorldPoint(new Vector3(
             Input.mousePosition.x,
             Input.mousePosition.y,
-            gameObject.transform.position.z
+            Camera.main.WorldToScreenPoint(gameObject.transform.position).z
         ));
 
     }
