@@ -1,6 +1,6 @@
-# Dragging GameObjects
+# Dragging
 
-## Drag From Center
+## Drag GameObject From Center
 
 ```csharp
 using UnityEngine;
