@@ -9,28 +9,26 @@ using UnityEngine;
 
 [System.Serializable]
 public struct Vector {
-	public string timestamp;
-	public int x;
-	public int y;
-	public int z;
-
+    public string timestamp;
+    public int x;
+    public int y;
+    public int z;
 }
 
 [System.Serializable]
 public struct VectorList {
-	public Vector[] vectors;
-
+    public Vector[] vectors;
 }
 
 public class LoadDataController : MonoBehaviour {
 
-	void Start () {
+    void Start () {
 
-		VectorList list = JsonUtility.FromJson<VectorList>((Resources.Load("Data/vectors") as TextAsset).text);
+        VectorList list = JsonUtility.FromJson<VectorList>((Resources.Load("Data/vectors") as TextAsset).text);
 
         Debug.Log(JsonUtility.ToJson(list));
 
-	}
+    }
 
 }
 ```
