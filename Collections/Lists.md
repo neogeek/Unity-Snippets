@@ -3,6 +3,9 @@
 ## `public` and `private` Class Lists
 
 ```csharp
+using System.Collections.Generic;
+using UnityEngine;
+
 public class SampleController : MonoBehaviour {
 
     public List<string> publicList;
