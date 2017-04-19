@@ -1,5 +1,8 @@
 # Game Objects
 
+- [Renderer](/GameObjects/Renderer.md)
+- [RidgedBody](/GameObjects/RidgedBody.md)
+
 ## Dynamically Generate Objects
 
 ```csharp
