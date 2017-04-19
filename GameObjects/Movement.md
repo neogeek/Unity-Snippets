@@ -1,6 +1,6 @@
 # Movement
 
-## Basic Player Controller
+## Player Move Controller
 
 ```csharp
 using UnityEngine;
@@ -25,6 +25,32 @@ public class PlayerController : MonoBehaviour {
         }
 
         transform.Rotate(rotation * rotateSpeed * Time.deltaTime);
+
+    }
+
+}
+```
+
+## Camera Follow Controller
+
+```csharp
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour {
+
+    public Transform cameraTransform;
+
+    private Vector3 cameraFollowOffset;
+
+    void Start () {
+
+        cameraFollowOffset = cameraTransform.position - transform.position;
+
+    }
+
+    void LateUpdate () {
+
+        cameraTransform.position = transform.position + cameraFollowOffset;
 
     }
 
