@@ -21,7 +21,7 @@ GameObject cubeObj = gameObject.transform.FindChild("Cube").gameObject;
 using UnityEngine;
 
 public class ExampleScript : MonoBehaviour {
-	public Color[] randomColors;
+    public Color[] randomColors;
 }
 ```
 
