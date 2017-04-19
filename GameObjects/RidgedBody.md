@@ -4,7 +4,7 @@
 
 ```csharp
 Rigidbody rb = newObject.GetComponent<Rigidbody>();
-rb.AddRelativeForce(new Vector3(0, 10.0f, 0) * 50.0f);
+rb.AddRelativeForce(new Vector3(0, 0, 10.0f) * 50.0f);
 ```
 
 ## Disable Collision on GameObject
