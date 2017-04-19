@@ -34,5 +34,5 @@ anotherGameObject.GetComponent<ScriptName>().currentActiveState = false;
 ## Rotate GameObject with `Vector3`
 
 ```csharp
-newObject.transform.rotation = Quaternion.Euler(0, 0, Mathf.Floor(Random.Range(-5.0f, 5.0f)));
+newObject.transform.rotation = Quaternion.Euler(0, 0, -45.0f);
 ```
