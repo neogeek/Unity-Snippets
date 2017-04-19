@@ -10,6 +10,7 @@
 - [FileSystem](/FileSystem/)
     - [JSON](/FileSystem/JSON.md)
 - [GameObjects](/GameObjects/)
+    - [Movement](/GameObjects/Movement.md)
     - [Renderer](/GameObjects/Renderer.md)
     - [RidgedBody](/GameObjects/RidgedBody.md)
 - [Interaction](/Interaction/)
