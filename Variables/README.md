@@ -1,5 +1,7 @@
 # Variables
 
+- [Struct](/Variables/Struct.md)
+
 ## Random Values
 
 ```csharp

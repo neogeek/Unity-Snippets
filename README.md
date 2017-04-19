@@ -15,3 +15,4 @@
 - [Interaction](/Interaction/)
     - [Dragging](/Interaction/Dragging.md)
 - [Variables](/Variables/)
+    - [Struct](/Variables/Struct.md)
