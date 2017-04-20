@@ -8,17 +8,17 @@ using UnityEngine;
 
 [System.Serializable]
 public struct PositionalData {
-	public string timestamp;
-	public float QuatW;
-	public float QuatX;
-	public float QuatY;
-	public float QuatZ;
-	public float AccelX;
-	public float AccelY;
-	public float AccelZ;
-	public float GravX;
-	public float GravY;
-	public float GravZ;
+    public string timestamp;
+    public float QuatW;
+    public float QuatX;
+    public float QuatY;
+    public float QuatZ;
+    public float AccelX;
+    public float AccelY;
+    public float AccelZ;
+    public float GravX;
+    public float GravY;
+    public float GravZ;
 
 }
 
