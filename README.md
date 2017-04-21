@@ -16,4 +16,5 @@
 - [Interaction](/Interaction/)
     - [Dragging](/Interaction/Dragging.md)
 - [Variables](/Variables/)
+    - [Date](/Variables/Date.md)
     - [Struct](/Variables/Struct.md)

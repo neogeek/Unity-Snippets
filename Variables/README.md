@@ -1,5 +1,6 @@
 # Variables
 
+- [Date](/Variables/Date.md)
 - [Struct](/Variables/Struct.md)
 
 ## `Mathf.Floor`
