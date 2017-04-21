@@ -6,7 +6,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public struct PositionalData {
     public string timestamp;
     public float QuatW;
