@@ -2,6 +2,16 @@
 
 - [Struct](/Variables/Struct.md)
 
+## `Mathf.Floor`
+
+```csharp
+Debug.Log(Mathf.Floor(2 / 3)); // 0.0f
+```
+
+```csharp
+Debug.Log(Mathf.FloorToInt(2 / 3)); // 0
+```
+
 ## Random Values
 
 ```csharp
