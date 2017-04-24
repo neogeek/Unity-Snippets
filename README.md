@@ -8,6 +8,7 @@
 - [Debug](/Debug/)
     - [Log](/Debug/Log.md)
 - [FileSystem](/FileSystem/)
+    - [File](/FileSystem/File.md)
     - [JSON](/FileSystem/JSON.md)
 - [GameObjects](/GameObjects/)
     - [Movement](/GameObjects/Movement.md)
