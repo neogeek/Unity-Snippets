@@ -49,6 +49,12 @@ Debug.Log(Mathf.Floor(10.5f)); // 10.0f
 Debug.Log(Mathf.FloorToInt(10.6f)); // 10
 ```
 
+## Clamp Number
+
+```csharp
+Debug.Log(Mathf.Clamp(10.0f, 1.0f, 5.0f)); // 5.0f
+```
+
 ## Random Values
 
 ```csharp
