@@ -5,6 +5,8 @@
 - [Audio](/Audio/)
 - [Collections](/Collections/)
     - [Lists](/Collections/Lists.md)
+- [Components](/Components/)
+    - [LineRenderer](/Components/LineRenderer.md)
 - [Debug](/Debug/)
     - [Log](/Debug/Log.md)
 - [FileSystem](/FileSystem/)
