@@ -2,7 +2,7 @@
 
 ## Loading a JSON File
 
-*Scripts/LoadDataController.cs*
+*Scripts/SampleController.cs*
 
 ```csharp
 using UnityEngine;
@@ -20,7 +20,7 @@ public struct VectorList {
     public Vector[] vectors;
 }
 
-public class LoadDataController : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     void Start () {
 

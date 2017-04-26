@@ -6,7 +6,7 @@
 using System;
 using UnityEngine;
 
-public class DateController : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     void Start () {
 

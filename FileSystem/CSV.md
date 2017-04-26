@@ -2,13 +2,13 @@
 
 ## Loading a CSV File
 
-*Scripts/LoadDataController.cs*
+*Scripts/SampleController.cs*
 
 ```csharp
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadDataController : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     void Start () {
 

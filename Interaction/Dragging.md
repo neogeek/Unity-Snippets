@@ -5,7 +5,7 @@
 ```csharp
 using UnityEngine;
 
-public class DraggingObjectController : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     private Vector3 GetMousePosition () {
 

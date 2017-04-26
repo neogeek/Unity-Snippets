@@ -4,7 +4,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ExampleScript : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     void Start () {
 

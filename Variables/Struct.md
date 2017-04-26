@@ -21,7 +21,7 @@ public struct PositionalData {
 
 }
 
-public class DebugController : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     private List<PositionalData> generatedPositionalData = new List<PositionalData>();
 

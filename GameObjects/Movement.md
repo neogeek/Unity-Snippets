@@ -5,7 +5,7 @@
 ```csharp
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     private float moveSpeed = 10.0f;
     private float rotateSpeed = 100.0f;
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour {
 ```csharp
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     public Transform cameraTransform;
 
