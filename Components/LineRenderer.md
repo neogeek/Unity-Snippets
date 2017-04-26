@@ -9,7 +9,9 @@ public class SampleController : MonoBehaviour {
 
         LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
 
+        lineRenderer.material.color = Color.red;
         lineRenderer.widthMultiplier = 0.1f;
+
         lineRenderer.positionCount = 5;
 
         lineRenderer.SetPosition(0, new Vector3(0, 0, 0));
