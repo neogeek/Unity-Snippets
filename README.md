@@ -7,6 +7,8 @@
     - [Lists](/Collections/Lists.md)
 - [Components](/Components/)
     - [LineRenderer](/Components/LineRenderer.md)
+- [Controllers](/Controllers/)
+    - [PlayerController](/Controllers/PlayerController.md)
 - [Debug](/Debug/)
     - [Log](/Debug/Log.md)
 - [FileSystem](/FileSystem/)
