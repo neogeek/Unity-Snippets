@@ -8,6 +8,7 @@
 - [Components](/Components/)
     - [LineRenderer](/Components/LineRenderer.md)
 - [Controllers](/Controllers/)
+    - [CustomTrackableEventHandler](/Controllers/CustomTrackableEventHandler.md)
     - [PlayerController](/Controllers/PlayerController.md)
 - [Debug](/Debug/)
     - [Log](/Debug/Log.md)
