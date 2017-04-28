@@ -8,6 +8,7 @@
 ```csharp
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour {
 
     public LayerMask groundLayers;
