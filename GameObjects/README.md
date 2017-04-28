@@ -37,3 +37,24 @@ anotherGameObject.GetComponent<ScriptName>().currentActiveState = false;
 ```csharp
 newObject.transform.rotation = Quaternion.Euler(0, 0, -45.0f);
 ```
+
+
+## Instantiate Object as a Child and Position it Relative to it's Parent Object
+
+```csharp
+using UnityEngine;
+
+public class SampleController : MonoBehaviour {
+
+    public GameObject gameObj;
+
+    void Start () {
+
+        GameObject tempObj = Instantiate(gameObj, new Vector3(0, 0, 0) + gameObject.transform.position, Quaternion.identity);
+
+        tempObj.transform.parent = gameObject.transform;
+
+    }
+
+}
+```
