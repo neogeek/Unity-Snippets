@@ -1,9 +1,4 @@
-# PlayerController.cs
-
-### Variables
-
-- **groundLayers** - Layer mask with only the platforms and floors selected.
-- **groundTransform** - An empty game object positioned at the bottom of the player object. Must be a child of the player object.
+# PlayerController.cs (Sidescroller)
 
 ```csharp
 using UnityEngine;
@@ -13,17 +8,11 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerController : MonoBehaviour {
 
-    public LayerMask groundLayers;
-    public Transform groundTransform;
-
     private Rigidbody2D rb;
     private Animator anima;
 
     private float horizontalSpeed = 10.0f;
-    private float jumpForce = 700.0f;
-
-    private bool jump = false;
-    private bool grounded = false;
+    private float verticalSpeed = 10.0f;
 
     void Start () {
 
@@ -39,15 +28,10 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Update () {
-
-        jump = Input.GetKeyDown(KeyCode.Space);
-
-    }
-
     void FixedUpdate () {
 
         float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
 
         anima.SetFloat("speed", Mathf.Abs(moveHorizontal));
 
@@ -57,17 +41,9 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        grounded = Physics2D.OverlapCircle(groundTransform.position, 0.5f, groundLayers);
-
-        Vector2 movement = new Vector2(moveHorizontal * horizontalSpeed, rb.velocity.y);
+        Vector2 movement = new Vector2(moveHorizontal * horizontalSpeed, moveVertical * verticalSpeed);
 
         rb.velocity = movement;
-
-        if (grounded && jump) {
-
-            rb.AddForce(new Vector2(0, jumpForce));
-
-        }
 
     }
 
