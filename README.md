@@ -12,6 +12,7 @@
     - [PlayerController (Platformer)](/Controllers/PlayerController-Platformer.md)
     - [PlayerController (Sidescroller)](/Controllers/PlayerController-Sidescroller.md)
 - [Debug](/Debug/)
+    - [Gizmos](/Debug/Gizmos.md)
     - [Log](/Debug/Log.md)
 - [FileSystem](/FileSystem/)
     - [CSV](/FileSystem/CSV.md)
