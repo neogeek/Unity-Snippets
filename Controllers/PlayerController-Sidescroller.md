@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
 
     private Animator anima;
 
-	private SpriteRenderer sprite;
+    private SpriteRenderer sprite;
 
     private float horizontalSpeed = 8.0f;
     private float verticalSpeed = 5.0f;
@@ -17,8 +17,7 @@ public class PlayerController : MonoBehaviour {
     void Start () {
 
         anima = gameObject.GetComponent<Animator>();
-
-		sprite = gameObject.GetComponent<SpriteRenderer>();
+        sprite = gameObject.GetComponent<SpriteRenderer>();
 
     }
 
@@ -27,32 +26,37 @@ public class PlayerController : MonoBehaviour {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
 
-		bool punch = Input.GetButton("Fire1");
+        bool punch = Input.GetButton("Fire1");
 
-		anima.SetBool("punching", punch);
+        anima.SetBool("punching", punch);
 
-		if (!punch) {
+        bool isPunching = anima.GetCurrentAnimatorStateInfo(0).IsName("Punch");
 
-			anima.SetBool("running", (Mathf.Abs(moveHorizontal) > 0 || Mathf.Abs(moveVertical) > 0));
+        if (!isPunching) {
 
-			if (Mathf.Abs(moveHorizontal) > 0) {
+            anima.SetBool("running", (Mathf.Abs(moveHorizontal) > 0 || Mathf.Abs(moveVertical) > 0));
 
-				Flip(moveHorizontal);
+            if (Mathf.Abs(moveHorizontal) > 0) {
 
-			}
+                Flip(moveHorizontal);
 
-			transform.Translate(new Vector2(
-				moveHorizontal * horizontalSpeed * Time.deltaTime,
-				moveVertical * verticalSpeed * Time.deltaTime
-			));
+            }
 
-		}
+            transform.Translate(new Vector2(
+                moveHorizontal * horizontalSpeed * Time.deltaTime,
+                moveVertical * verticalSpeed * Time.deltaTime
+            ));
+
+        }
 
     }
 
-    void Flip (float moveHorizontal) {
+    void Flip (float horizontalDirection) {
 
-        sprite.flipX = Mathf.Sign(moveHorizontal) < 0;
+        Vector2 scale = gameObject.transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * Mathf.Sign(horizontalDirection);
+
+        gameObject.transform.localScale = scale;
 
     }
 
