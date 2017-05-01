@@ -3,6 +3,8 @@
 > A collection of code snippets I found useful while coding in Unity.
 
 - [Audio](/Audio/)
+- [Classes](/Classes/)
+    - [GridManager](/Classes/GridManager.md)
 - [Collections](/Collections/)
     - [Lists](/Collections/Lists.md)
 - [Components](/Components/)
