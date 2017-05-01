@@ -52,7 +52,7 @@ public class SampleController : MonoBehaviour {
 
         GameObject tempObj = Instantiate(gameObj, new Vector3(0, 0, 0) + gameObject.transform.position, Quaternion.identity);
 
-        tempObj.transform.parent = gameObject.transform;
+        tempObj.transform.SetParent(gameObject.transform);
 
     }
 
