@@ -3,20 +3,28 @@
 - [Date](/Variables/Date.md)
 - [Struct](/Variables/Struct.md)
 
-## `int.Parse`
+## `Cast Value To Integer`
 
 ```csharp
 Debug.Log(int.Parse("1")); // 1
 ```
 
 ```csharp
-Debug.Log(int.Parse("1")); // 1
+Debug.Log(int.Parse("1.5")); // 1
 ```
 
-## `float.Parse`
+```csharp
+Debug.Log((int)"1.5"); // 1
+```
+
+## `Cast Value To Float`
 
 ```csharp
 Debug.Log(float.Parse("1.5")); // 1.5f
+```
+
+```csharp
+Debug.Log((float)"1.5"); // 1.5f
 ```
 
 ## `Mathf.Ceiling`
