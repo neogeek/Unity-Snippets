@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour {
         }
 
         anima = gameObject.GetComponent<Animator>();
-
         rb = gameObject.GetComponent<Rigidbody2D>();
 
     }
