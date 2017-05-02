@@ -1,6 +1,6 @@
 # Movement
 
-## Player Move Controller
+## Move and Rotate an Object in 3D
 
 ```csharp
 using UnityEngine;
@@ -9,16 +9,17 @@ public class SampleController : MonoBehaviour {
 
     private float moveSpeed = 10.0f;
     private float rotateSpeed = 100.0f;
+    private float threshold = 0.5f;
 
     void Update () {
 
         Vector3 rotation = new Vector3(0, Input.GetAxis("Horizontal"),  0);
 
-        if (Input.GetAxis("Vertical") > 0.5) {
+        if (Input.GetAxis("Vertical") > threshold) {
 
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
 
-        } else if (Input.GetAxis("Vertical") < -0.5) {
+        } else if (Input.GetAxis("Vertical") < -threshold) {
 
             transform.position -= transform.forward * moveSpeed * Time.deltaTime;
 
@@ -31,7 +32,7 @@ public class SampleController : MonoBehaviour {
 }
 ```
 
-## Camera Follow Controller
+## Follow an Object in 3D
 
 ```csharp
 using UnityEngine;
