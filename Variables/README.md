@@ -54,6 +54,10 @@ Debug.Log(Mathf.Floor(10.5f)); // 10.0f
 ## `Mathf.FloorToInt`
 
 ```csharp
+Debug.Log(Mathf.FloorToInt(10f)); // 10
+```
+
+```csharp
 Debug.Log(Mathf.FloorToInt(10.6f)); // 10
 ```
 
