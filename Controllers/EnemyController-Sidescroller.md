@@ -22,8 +22,7 @@ public class EnemyController : MonoBehaviour {
 
         anima = gameObject.GetComponent<Animator>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
-
-        playerSprite = gameObject.GetComponent<SpriteRenderer>();
+        playerSprite = player.GetComponent<SpriteRenderer>();
 
     }
 
