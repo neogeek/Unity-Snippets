@@ -12,7 +12,6 @@ public class EnemyController : MonoBehaviour {
     private Animator anima;
 
     private SpriteRenderer sprite;
-
     private SpriteRenderer playerSprite;
 
     private float maxSpeed = 5.0f;
