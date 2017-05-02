@@ -27,6 +27,7 @@
     - [RidgedBody](/GameObjects/RidgedBody.md)
 - [General](/General/)
     - [Scenes](/General/Scenes.md)
+    - [Singleton](/General/Singleton.md)
     - [yield](/General/yield.md)
 - [Interaction](/Interaction/)
     - [Dragging](/Interaction/Dragging.md)
