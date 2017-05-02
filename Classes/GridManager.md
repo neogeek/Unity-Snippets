@@ -9,7 +9,7 @@ public class GridManager {
     public int columns = 0;
     public int rows = 0;
 
-    public List<Vector3> gridPositions = new List<Vector3>();
+    public List<Vector2> gridPositions = new List<Vector2>();
 
     public GridManager (int columnCount, int rowCount) {
 
@@ -36,13 +36,27 @@ public class GridManager {
 
     }
 
-    public Vector2 RandomPosition () {
+    public Vector2 RandomPosition (bool remove = true) {
 
-        int randomIndex = (int)Random.Range(0, gridPositions.Count);
+        return ReturnAndRemove(Random.Range(0, gridPositions.Count), remove);
 
-        Vector2 position = gridPositions[randomIndex];
+    }
 
-        gridPositions.RemoveAt(randomIndex);
+    public Vector2 FindByPosition (Vector2 position, bool remove = true) {
+
+        return ReturnAndRemove(gridPositions.IndexOf(position), remove);
+
+    }
+
+    public Vector2 ReturnAndRemove (int index, bool remove = true) {
+
+        Vector2 position = gridPositions[index];
+
+        if (remove) {
+
+            gridPositions.RemoveAt(index);
+
+        }
 
         return position;
 
