@@ -38,13 +38,17 @@ public class GridManager {
 
     public Vector2 RandomPosition (bool remove = true) {
 
-        return ReturnAndRemove(Random.Range(0, gridPositions.Count), remove);
+        int index = Random.Range(0, gridPositions.Count);
+
+        return ReturnAndRemove(index, remove);
 
     }
 
     public Vector2 FindByPosition (Vector2 position, bool remove = true) {
 
-        return ReturnAndRemove(gridPositions.IndexOf(position), remove);
+        int index = gridPositions.IndexOf(position);
+
+        return ReturnAndRemove(index, remove);
 
     }
 
