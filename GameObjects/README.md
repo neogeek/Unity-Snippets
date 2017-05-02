@@ -38,7 +38,6 @@ anotherGameObject.GetComponent<ScriptName>().currentActiveState = false;
 newObject.transform.rotation = Quaternion.Euler(0, 0, -45.0f);
 ```
 
-
 ## Instantiate Object as a Child and Position it Relative to it's Parent Object
 
 ```csharp
