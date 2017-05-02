@@ -9,15 +9,12 @@ public class PlayerController : MonoBehaviour {
 
     private Animator anima;
 
-    private SpriteRenderer sprite;
-
     private float horizontalSpeed = 8.0f;
     private float verticalSpeed = 5.0f;
 
     void Start () {
 
         anima = gameObject.GetComponent<Animator>();
-        sprite = gameObject.GetComponent<SpriteRenderer>();
 
     }
 
