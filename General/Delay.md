@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DelayExample : MonoBehaviour {
 
-    private float delayTick = 0.25f;
+    private float delayRate = 0.25f;
 
     private float nextTick;
 
@@ -15,7 +15,7 @@ public class DelayExample : MonoBehaviour {
 
             Debug.Log("tick");
 
-            nextTick = Time.time + delayTick;
+            nextTick = Time.time + delayRate;
 
         }
 
