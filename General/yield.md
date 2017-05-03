@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class SampleController : MonoBehaviour {
 
+    private WaitForSeconds delay = new WaitForSeconds(1);
+
     void Start () {
 
         StartCoroutine(logOutput());
@@ -14,7 +16,9 @@ public class SampleController : MonoBehaviour {
 
     IEnumerator logOutput () {
 
-        yield return new WaitForSeconds(1);
+        yield return delay;
+
+        Debug.Log("output");
 
         StartCoroutine(logOutput());
 
