@@ -10,12 +10,12 @@ public class EnemyController : MonoBehaviour {
     public GameObject player;
 
     private Animator anima;
-
     private SpriteRenderer sprite;
     private SpriteRenderer playerSprite;
 
     private float maxSpeed = 5.0f;
-    private float maxDistance = 3.0f;
+    private float maxDistanceX = 3.0f;
+    private float maxDistanceY = 1.0f;
 
     void Start () {
 
@@ -27,7 +27,8 @@ public class EnemyController : MonoBehaviour {
 
     void FixedUpdate () {
 
-        float distance = Vector2.Distance(transform.position, player.transform.position);
+        float distanceX = Mathf.Abs(sprite.bounds.min.x - playerSprite.bounds.min.x);
+        float distanceY = Mathf.Abs(sprite.bounds.min.y - playerSprite.bounds.min.y);
 
         Flip(player.transform.position.x - transform.position.x);
 
@@ -41,9 +42,9 @@ public class EnemyController : MonoBehaviour {
 
         }
 
-        if (player && player.activeSelf && distance > maxDistance) {
+        if (player && player.activeSelf && (distanceX > maxDistanceX || distanceY > maxDistanceY)) {
 
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, maxSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(sprite.bounds.min, playerSprite.bounds.min, maxSpeed * Time.deltaTime) + sprite.bounds.extents;
 
             anima.SetBool("running", true);
 
