@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour {
 
     private Animator anima;
 
+    public Transform punchTrigger;
+
     private float horizontalSpeed = 8.0f;
     private float verticalSpeed = 5.0f;
 
@@ -43,6 +45,16 @@ public class PlayerController : MonoBehaviour {
                 moveHorizontal * horizontalSpeed * Time.deltaTime,
                 moveVertical * verticalSpeed * Time.deltaTime
             ));
+
+        } else {
+
+            Collider2D[] punched = Physics2D.OverlapCircleAll(punchTrigger.position, 0.5f, 1 << LayerMask.NameToLayer("Enemy"));
+
+            for (int i = 0; i < punched.Length; i++) {
+
+                punched[i].GetComponent<Animator>().SetBool("punched", true);
+
+            }
 
         }
 

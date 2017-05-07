@@ -13,6 +13,9 @@ public class EnemyController : MonoBehaviour {
     private SpriteRenderer sprite;
     private SpriteRenderer playerSprite;
 
+    private float stunnedDelayRate = 0.25f;
+    private float stunnedNextTick = 0f;
+
     private float maxSpeed = 5.0f;
     private float maxDistanceX = 3.0f;
     private float maxDistanceY = 1.0f;
@@ -22,6 +25,31 @@ public class EnemyController : MonoBehaviour {
         anima = gameObject.GetComponent<Animator>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
         playerSprite = player.GetComponent<SpriteRenderer>();
+
+    }
+
+    void Update () {
+
+        if (anima.GetBool("punched")) {
+
+            Debug.Log(Time.time);
+            Debug.Log(stunnedNextTick);
+
+            if (stunnedNextTick == 0f) {
+
+                stunnedNextTick = Time.time + stunnedDelayRate;
+
+            }
+
+            if (Time.time > stunnedNextTick) {
+
+                anima.SetBool("punched", false);
+
+                stunnedNextTick = 0f;
+
+            }
+
+        }
 
     }
 
