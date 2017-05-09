@@ -32,9 +32,6 @@ public class EnemyController : MonoBehaviour {
 
         if (anima.GetBool("punched")) {
 
-            Debug.Log(Time.time);
-            Debug.Log(stunnedNextTick);
-
             if (stunnedNextTick == 0f) {
 
                 stunnedNextTick = Time.time + stunnedDelayRate;
