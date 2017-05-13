@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 
     private bool jump = false;
     private bool grounded = false;
+    private bool doubleJump = false;
 
     void Start () {
 
@@ -58,13 +59,27 @@ public class PlayerController : MonoBehaviour {
 
         grounded = Physics2D.OverlapCircle(groundTransform.position, 0.5f, groundLayers);
 
+        if (grounded) {
+
+            doubleJump = false;
+
+        }
+
         Vector2 movement = new Vector2(moveHorizontal * horizontalSpeed, rb.velocity.y);
 
         rb.velocity = movement;
 
-        if (grounded && jump) {
+        if ((grounded || !doubleJump) && jump) {
+
+            rb.velocity = new Vector2(rb.velocity.x, 0);
 
             rb.AddForce(new Vector2(0, jumpForce));
+
+            if (!grounded) {
+
+                doubleJump = true;
+
+            }
 
         }
 
