@@ -2,8 +2,8 @@
 
 ### Variables
 
+- **groundTrigger** - An empty game object positioned at the bottom of the player object. Must be a child of the player object.
 - **groundLayers** - Layer mask with only the platforms and floors selected.
-- **groundTransform** - An empty game object positioned at the bottom of the player object. Must be a child of the player object.
 
 ```csharp
 using UnityEngine;
@@ -13,8 +13,8 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerController : MonoBehaviour {
 
+    public Transform groundTrigger;
     public LayerMask groundLayers;
-    public Transform groundTransform;
 
     private Rigidbody2D rb;
     private Animator anima;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        grounded = Physics2D.OverlapCircle(groundTransform.position, 0.5f, groundLayers);
+        grounded = Physics2D.OverlapCircle(groundTrigger.position, 0.5f, groundLayers);
 
         if (grounded) {
 
