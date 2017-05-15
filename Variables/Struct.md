@@ -18,7 +18,6 @@ public struct PositionalData {
     public float GravX;
     public float GravY;
     public float GravZ;
-
 }
 
 public class SampleController : MonoBehaviour {
