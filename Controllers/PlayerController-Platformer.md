@@ -22,9 +22,12 @@ public class PlayerController : MonoBehaviour {
     private float horizontalSpeed = 10.0f;
     private float jumpForce = 700.0f;
 
-    private bool jump = false;
-    private bool grounded = false;
-    private bool doubleJump = false;
+    private bool jumpPressed = false;
+    private bool canJump = true;
+    private bool doubleJumpUsed = false;
+
+    private float jumpDelayRate = 0.1f;
+    private float nextJumpTick;
 
     void Start () {
 
@@ -34,14 +37,14 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        anima = gameObject.GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+        anima = gameObject.GetComponent<Animator>();
 
     }
 
     void Update () {
 
-        jump = Input.GetKeyDown(KeyCode.Space);
+        jumpPressed = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0);
 
     }
 
@@ -57,27 +60,38 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        grounded = Physics2D.OverlapCircle(groundTrigger.position, 0.5f, groundLayers);
-
-        if (grounded) {
-
-            doubleJump = false;
-
-        }
-
         Vector2 movement = new Vector2(moveHorizontal * horizontalSpeed, rb.velocity.y);
 
         rb.velocity = movement;
 
-        if ((grounded || !doubleJump) && jump) {
+        if (Time.time > nextJumpTick) {
 
-            rb.velocity = new Vector2(rb.velocity.x, 0);
+            bool grounded = Physics2D.OverlapCircle(groundTrigger.position, 0.1f, groundLayers);
 
-            rb.AddForce(new Vector2(0, jumpForce));
+            if (grounded) {
 
-            if (!grounded) {
+                canJump = true;
+                doubleJumpUsed = false;
 
-                doubleJump = true;
+            }
+
+            if (canJump && jumpPressed) {
+
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+
+                rb.AddForce(new Vector2(0, jumpForce));
+
+                if (!doubleJumpUsed) {
+
+                    doubleJumpUsed = true;
+
+                } else {
+
+                    canJump = false;
+
+                }
+
+                nextJumpTick = Time.time + jumpDelayRate;
 
             }
 
