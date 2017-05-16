@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour {
 
     void Update () {
 
-        jumpPressed = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0);
+        jumpPressed = Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
 
     }
 
