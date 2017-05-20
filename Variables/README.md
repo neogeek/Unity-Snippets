@@ -73,6 +73,12 @@ Debug.Log(Mathf.Clamp(10.0f, 1.0f, 5.0f)); // 5.0f
 float randomPosition = Random.Range(1.0f, 25.0f);
 ```
 
+```csharp
+int rnd = System.Random();
+
+int randomPosition = rnd.Next(0, 10);
+```
+
 ## Select Random Item in an Array
 
 ```csharp
