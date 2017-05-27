@@ -17,6 +17,8 @@
 - [Debug](/Debug/)
     - [Gizmos](/Debug/Gizmos.md)
     - [Log](/Debug/Log.md)
+- [Deploy](/Deploy/)
+    - [Fire-TV](/Deploy/Fire-TV.md)
 - [FileSystem](/FileSystem/)
     - [CSV](/FileSystem/CSV.md)
     - [File](/FileSystem/File.md)
