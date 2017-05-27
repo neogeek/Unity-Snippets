@@ -25,6 +25,12 @@ public class SampleSingleton : MonoBehaviour {
 
     }
 
+    public void SceneSetup () {
+
+        Debug.Log("scene loaded");
+
+    }
+
 }
 ```
 
@@ -44,6 +50,8 @@ public class Loader : MonoBehaviour {
             Instantiate(sampleSingleton);
 
         }
+
+        SampleSingleton.instance.SceneSetup();
 
     }
 
