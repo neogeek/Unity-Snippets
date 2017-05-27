@@ -9,6 +9,9 @@ public class SampleSingleton : MonoBehaviour {
 
     public static SampleSingleton instance = null;
 
+    public int highScore = 0;
+    public int currentScore = 0;
+
     void Awake () {
 
         if (instance != null && instance != this) {
@@ -27,7 +30,19 @@ public class SampleSingleton : MonoBehaviour {
 
     public void SceneSetup () {
 
-        Debug.Log("scene loaded");
+        currentScore = 0;
+
+    }
+
+    void Update () {
+
+        currentScore = currentScore + 1;
+
+        if (currentScore > highScore) {
+
+            highScore = currentScore;
+
+        }
 
     }
 
