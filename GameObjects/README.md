@@ -13,7 +13,7 @@ GameObject newObject = Instantiate(objectToGenerate, new Vector3(0, 0, 0), Quate
 ## Find Child GameObject
 
 ```csharp
-GameObject cubeObj = gameObject.transform.FindChild("Cube").gameObject;
+GameObject cubeObj = gameObject.transform.Find("Cube").gameObject;
 ```
 
 ## Add a `public` Color Array to a GameObject
