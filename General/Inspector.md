@@ -30,3 +30,16 @@ public class InspectorExample : MonoBehaviour {
 
 }
 ```
+
+## Tooltip
+
+```csharp
+using UnityEngine;
+
+public class InspectorExample : MonoBehaviour {
+
+    [Tooltip("Offset of GameObject from parent")]
+    public float offset = 0.25f;
+
+}
+```
