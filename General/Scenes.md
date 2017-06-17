@@ -3,5 +3,12 @@
 ## Load Scene
 
 ```csharp
-SceneManager.LoadScene("SceneName");
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class LoadSceneExample : MonoBehaviour {
+
+    SceneManager.LoadScene("SceneName");
+
+}
 ```
