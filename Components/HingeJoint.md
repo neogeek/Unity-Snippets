@@ -1,6 +1,10 @@
 # HingeJoint
 
 ```csharp
+Rigidbody rb = sectionPlatform.GetComponent<Rigidbody>();
+rb.isKinematic = false;
+rb.angularDrag = 20.0f;
+
 JointLimits limits = new JointLimits();
 limits.min = -10.0f;
 limits.max = 10.0f;
