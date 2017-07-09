@@ -8,6 +8,7 @@
 - [Collections](/Collections/)
     - [Lists](/Collections/Lists.md)
 - [Components](/Components/)
+    - [HingeJoint](/Components/HingeJoint.md)
     - [LineRenderer](/Components/LineRenderer.md)
 - [Controllers](/Controllers/)
     - [CustomTrackableEventHandler](/Controllers/CustomTrackableEventHandler.md)
