@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FadeController : MonoBehaviour {
 
-    public Color fadeColor =  new Color(0, 0, 0, 0.0f);
+    public Color fadeColor = new Color(0, 0, 0, 0.0f);
     public float fadeSpeed = 0.3f;
 
     public bool isFading {
