@@ -17,7 +17,6 @@ public class FadeController : MonoBehaviour {
     private Texture2D fadeTexture;
     private Rect fadeRect;
 
-    private bool _isFading = false;
     private float fadeDirection = -1.0f;
     private float fadeEndValue = 0.0f;
 
@@ -30,7 +29,6 @@ public class FadeController : MonoBehaviour {
 
     public void FadeOut () {
 
-        _isFading = true;
         fadeDirection = 1.0f;
         fadeEndValue = 1.0f;
 
@@ -38,7 +36,6 @@ public class FadeController : MonoBehaviour {
 
     public void FadeIn () {
 
-        _isFading = true;
         fadeDirection = -1.0f;
         fadeEndValue = 0.0f;
 
@@ -46,11 +43,9 @@ public class FadeController : MonoBehaviour {
 
     void Update () {
 
-        if (_isFading) {
+        if (isFading) {
 
             fadeColor.a = Mathf.Clamp01(fadeColor.a + (Time.fixedDeltaTime / fadeSpeed * fadeDirection));
-
-            _isFading = isFading;
 
         }
 
