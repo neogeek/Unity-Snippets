@@ -5,23 +5,23 @@ using UnityEngine;
 
 public class DestroyParticleEmitterOnEnd : MonoBehaviour {
 
-	private ParticleSystem ps;
+    private ParticleSystem ps;
 
-	void Awake () {
+    void Awake () {
 
-		ps = gameObject.GetComponent<ParticleSystem>();
+        ps = gameObject.GetComponent<ParticleSystem>();
 
-	}
+    }
 
-	void Update () {
+    void Update () {
 
-		if (!ps.IsAlive()) {
+        if (!ps.IsAlive()) {
 
-			Destroy(gameObject);
+            Destroy(gameObject);
 
-		}
+        }
 
-	}
+    }
 
 }
 ```

@@ -5,36 +5,36 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-	private Transform target;
+    private Transform target;
 
-	private Camera mainCamera;
+    private Camera mainCamera;
 
-	private float dampRate = 0.3f;
-	private Vector3 velocity = Vector3.zero;
+    private float dampRate = 0.3f;
+    private Vector3 velocity = Vector3.zero;
 
-	void Awake () {
+    void Awake () {
 
-		mainCamera = Camera.main;
+        mainCamera = Camera.main;
 
-	}
+    }
 
-	void Update () {
+    void Update () {
 
-		if (target) {
+        if (target) {
 
-			mainCamera.transform.position = Vector3.SmoothDamp(
-				mainCamera.transform.position, new Vector3(
-					target.transform.position.x,
-					target.transform.position.y,
-					mainCamera.transform.position.z
-				),
-				ref velocity,
-				dampRate
-			);
+            mainCamera.transform.position = Vector3.SmoothDamp(
+                mainCamera.transform.position, new Vector3(
+                    target.transform.position.x,
+                    target.transform.position.y,
+                    mainCamera.transform.position.z
+                ),
+                ref velocity,
+                dampRate
+            );
 
-		}
+        }
 
-	}
+    }
 
 }
 ```
