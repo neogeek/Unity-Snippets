@@ -11,7 +11,7 @@
     - [HingeJoint](/Components/HingeJoint.md)
     - [LineRenderer](/Components/LineRenderer.md)
 - [Controllers](/Controllers/)
-    - [CamerFollow](/Controllers/CamerFollow.md)
+    - [CameraFollow](/Controllers/CameraFollow.md)
     - [CustomTrackableEventHandler](/Controllers/CustomTrackableEventHandler.md)
     - [DestroyParticleEmitterOnEnd](/Controllers/DestroyParticleEmitterOnEnd.md)
     - [EnemyController (Sidescroller)](/Controllers/EnemyController-Sidescroller.md)
