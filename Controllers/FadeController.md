@@ -20,28 +20,28 @@ public class FadeController : MonoBehaviour {
     private float fadeDirection = -1.0f;
     private float fadeEndValue = 0.0f;
 
-    void Awake () {
+    void Awake() {
 
         fadeTexture = new Texture2D(0, 0);
         fadeRect = new Rect(0, 0, Screen.width, Screen.height);
 
     }
 
-    public void FadeOut () {
+    public void FadeOut() {
 
         fadeDirection = 1.0f;
         fadeEndValue = 1.0f;
 
     }
 
-    public void FadeIn () {
+    public void FadeIn() {
 
         fadeDirection = -1.0f;
         fadeEndValue = 0.0f;
 
     }
 
-    void Update () {
+    void Update() {
 
         if (isFading) {
 
@@ -51,7 +51,7 @@ public class FadeController : MonoBehaviour {
 
     }
 
-    void OnGUI () {
+    void OnGUI() {
 
         GUI.color = fadeColor;
         GUI.DrawTexture(fadeRect, fadeTexture);
@@ -62,13 +62,16 @@ public class FadeController : MonoBehaviour {
 ```
 
 ```csharp
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class SampleController : MonoBehaviour {
 
     public FadeController fader;
 
     private bool fadeStarted = false;
 
-    void Update () {
+    void Update() {
 
         if (Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)) {
 
@@ -84,7 +87,7 @@ public class SampleController : MonoBehaviour {
 
         if (fadeStarted && !fader.isFading) {
 
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
 
         }
 
