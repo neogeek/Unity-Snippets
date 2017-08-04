@@ -35,7 +35,7 @@ public class EnemyController : MonoBehaviour {
 
     void FixedUpdate () {
 
-        distanceToPlayer = moveTarget.position - playerMoveTarget.position;
+        distanceToPlayer = playerMoveTarget.position - moveTarget.position;
 
         if (hasBeenPunched) {
 
