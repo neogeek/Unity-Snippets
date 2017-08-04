@@ -12,7 +12,7 @@ public class SampleController : MonoBehaviour {
 
     private List<string> privateList = new List<string>();
 
-    void Start () {
+    void Start() {
 
         publicList.Add("Hello, world");
 

@@ -3,8 +3,8 @@
 ```csharp
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof (Animator))]
+[RequireComponent(typeof (SpriteRenderer))]
 public class EnemyController : MonoBehaviour {
 
     public GameObject player;
@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour {
     private int horizontalDirection = 1;
     private bool hasBeenPunched = false;
 
-    void Awake () {
+    void Awake() {
 
         anima = gameObject.GetComponent<Animator>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour {
 
     }
 
-    void FixedUpdate () {
+    void FixedUpdate() {
 
         distanceToPlayer = playerMoveTarget.position - moveTarget.position;
 
@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour {
 
     }
 
-    void Move () {
+    void Move() {
 
         if (Mathf.Abs(distanceToPlayer.x) > maxDistanceX || Mathf.Abs(distanceToPlayer.y) > maxDistanceY) {
 
@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour {
 
     }
 
-    void Flip () {
+    void Flip() {
 
         Vector2 scale = gameObject.transform.localScale;
         horizontalDirection *= -1;
@@ -82,7 +82,7 @@ public class EnemyController : MonoBehaviour {
 
     }
 
-    void UpdateSortingOrder () {
+    void UpdateSortingOrder() {
 
         if (moveTarget.position.y > playerMoveTarget.position.y) {
 
@@ -96,7 +96,7 @@ public class EnemyController : MonoBehaviour {
 
     }
 
-    void Punched () {
+    void Punched() {
 
         if (Time.time > stunnedNextTick) {
 
@@ -110,7 +110,7 @@ public class EnemyController : MonoBehaviour {
 
     }
 
-    public void Punch () {
+    public void Punch() {
 
         hasBeenPunched = true;
 

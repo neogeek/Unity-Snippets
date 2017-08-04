@@ -3,8 +3,8 @@
 ```csharp
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof (Animator))]
+[RequireComponent(typeof (SpriteRenderer))]
 public class PlayerController : MonoBehaviour {
 
     public Transform punchTrigger;
@@ -22,14 +22,14 @@ public class PlayerController : MonoBehaviour {
     private int horizontalDirection = 1;
     private bool punchPressed = false;
 
-    void Awake () {
+    void Awake() {
 
         anima = gameObject.GetComponent<Animator>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
 
     }
 
-    void Update () {
+    void Update() {
 
         moveHorizontal = Input.GetAxisRaw("Horizontal");
         moveVertical = Input.GetAxisRaw("Vertical");
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void FixedUpdate () {
+    void FixedUpdate() {
 
         if (punchPressed) {
 
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Move () {
+    void Move() {
 
         anima.SetFloat("speed", Mathf.Abs(moveHorizontal) + Mathf.Abs(moveVertical));
 
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Flip () {
+    void Flip() {
 
         Vector2 scale = gameObject.transform.localScale;
         horizontalDirection *= -1;
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Punch () {
+    void Punch() {
 
         anima.SetTrigger("punching");
 

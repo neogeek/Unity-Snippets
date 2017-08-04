@@ -7,13 +7,13 @@ public class DestroyParticleEmitterOnEnd : MonoBehaviour {
 
     private ParticleSystem ps;
 
-    void Awake () {
+    void Awake() {
 
         ps = gameObject.GetComponent<ParticleSystem>();
 
     }
 
-    void Update () {
+    void Update() {
 
         if (!ps.IsAlive()) {
 
