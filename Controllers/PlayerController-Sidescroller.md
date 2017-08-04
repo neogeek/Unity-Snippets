@@ -7,65 +7,88 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerController : MonoBehaviour {
 
-    private Animator anima;
-
     public Transform punchTrigger;
+    public Transform moveTarget;
+    public LayerMask enemyLayerMask;
 
-    private float horizontalSpeed = 8.0f;
-    private float verticalSpeed = 5.0f;
+    private Animator anima;
+    private SpriteRenderer sprite;
 
-    void Start () {
+    private readonly float horizontalSpeed = 8.0f;
+    private readonly float verticalSpeed = 5.0f;
+
+    private float moveHorizontal = 0.0f;
+    private float moveVertical = 0.0f;
+    private int horizontalDirection = 1;
+    private bool punchPressed = false;
+
+    void Awake () {
 
         anima = gameObject.GetComponent<Animator>();
+        sprite = gameObject.GetComponent<SpriteRenderer>();
+
+    }
+
+    void Update () {
+
+        moveHorizontal = Input.GetAxisRaw("Horizontal");
+        moveVertical = Input.GetAxisRaw("Vertical");
+
+        punchPressed = Input.GetButtonDown("Fire1");
 
     }
 
     void FixedUpdate () {
 
-        float moveHorizontal = Input.GetAxisRaw("Horizontal");
-        float moveVertical = Input.GetAxisRaw("Vertical");
+        if (punchPressed) {
 
-        bool punch = Input.GetButton("Fire1");
-
-        anima.SetBool("punching", punch);
-
-        bool isPunching = anima.GetCurrentAnimatorStateInfo(0).IsName("Punch");
-
-        if (!isPunching) {
-
-            anima.SetBool("running", (Mathf.Abs(moveHorizontal) > 0 || Mathf.Abs(moveVertical) > 0));
-
-            if (Mathf.Abs(moveHorizontal) > 0) {
-
-                Flip(moveHorizontal);
-
-            }
-
-            transform.Translate(new Vector2(
-                moveHorizontal * horizontalSpeed * Time.deltaTime,
-                moveVertical * verticalSpeed * Time.deltaTime
-            ));
+            Punch();
 
         } else {
 
-            Collider2D[] punched = Physics2D.OverlapCircleAll(punchTrigger.position, 0.5f, 1 << LayerMask.NameToLayer("Enemy"));
+            if (Mathf.Abs(moveHorizontal) > 0 && Mathf.Sign(moveHorizontal) != horizontalDirection) {
 
-            for (int i = 0; i < punched.Length; i++) {
-
-                punched[i].GetComponent<Animator>().SetBool("punched", true);
+                Flip();
 
             }
+
+            Move();
 
         }
 
     }
 
-    void Flip (float horizontalDirection) {
+    void Move () {
+
+        anima.SetFloat("speed", Mathf.Abs(moveHorizontal) + Mathf.Abs(moveVertical));
+
+        transform.Translate(new Vector2(
+            moveHorizontal * horizontalSpeed * Time.deltaTime,
+            moveVertical * verticalSpeed * Time.deltaTime
+        ));
+
+    }
+
+    void Flip () {
 
         Vector2 scale = gameObject.transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * Mathf.Sign(horizontalDirection);
-
+        horizontalDirection *= -1;
+        scale.x *= -1;
         gameObject.transform.localScale = scale;
+
+    }
+
+    void Punch () {
+
+        anima.SetTrigger("punching");
+
+        Collider2D[] punched = Physics2D.OverlapCircleAll(punchTrigger.position, 0.5f, enemyLayerMask);
+
+        for (int i = 0; i < punched.Length; i++) {
+
+            punched[i].GetComponent<EnemyController>().Punch();
+
+        }
 
     }
 

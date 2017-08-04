@@ -8,56 +8,83 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
     public GameObject player;
+    public Transform moveTarget;
 
     private Animator anima;
     private SpriteRenderer sprite;
-    private SpriteRenderer playerSprite;
+    private Transform playerMoveTarget;
 
-    private float stunnedDelayRate = 0.25f;
+    private readonly float stunnedDelayRate = 0.5f;
+    private readonly float maxSpeed = 5.0f;
+    private readonly float maxDistanceX = 3.0f;
+    private readonly float maxDistanceY = 1.0f;
+
     private float stunnedNextTick = 0f;
+    private Vector3 distanceToPlayer = Vector3.zero;
+    private int horizontalDirection = 1;
+    private bool hasBeenPunched = false;
 
-    private float maxSpeed = 5.0f;
-    private float maxDistanceX = 3.0f;
-    private float maxDistanceY = 1.0f;
-
-    void Start () {
+    void Awake () {
 
         anima = gameObject.GetComponent<Animator>();
         sprite = gameObject.GetComponent<SpriteRenderer>();
-        playerSprite = player.GetComponent<SpriteRenderer>();
 
-    }
-
-    void Update () {
-
-        if (anima.GetBool("punched")) {
-
-            if (stunnedNextTick == 0f) {
-
-                stunnedNextTick = Time.time + stunnedDelayRate;
-
-            }
-
-            if (Time.time > stunnedNextTick) {
-
-                anima.SetBool("punched", false);
-
-                stunnedNextTick = 0f;
-
-            }
-
-        }
+        playerMoveTarget = player.GetComponent<PlayerController>().moveTarget;
 
     }
 
     void FixedUpdate () {
 
-        float distanceX = Mathf.Abs(sprite.bounds.min.x - playerSprite.bounds.min.x);
-        float distanceY = Mathf.Abs(sprite.bounds.min.y - playerSprite.bounds.min.y);
+        distanceToPlayer = moveTarget.position - playerMoveTarget.position;
 
-        Flip(player.transform.position.x - transform.position.x);
+        if (hasBeenPunched) {
 
-        if (sprite.bounds.min.y > playerSprite.bounds.min.y) {
+            Punched();
+
+        } else {
+
+            if (Mathf.Abs(distanceToPlayer.x) > 0 && Mathf.Sign(distanceToPlayer.x) != horizontalDirection) {
+
+                Flip();
+
+            }
+
+            Move();
+
+        }
+
+        UpdateSortingOrder();
+
+    }
+
+    void Move () {
+
+        if (Mathf.Abs(distanceToPlayer.x) > maxDistanceX || Mathf.Abs(distanceToPlayer.y) > maxDistanceY) {
+
+            transform.position = Vector3.MoveTowards(moveTarget.position, playerMoveTarget.position, maxSpeed * Time.deltaTime);
+
+            anima.SetBool("walking", true);
+
+        } else {
+
+            anima.SetBool("walking", false);
+
+        }
+
+    }
+
+    void Flip () {
+
+        Vector2 scale = gameObject.transform.localScale;
+        horizontalDirection *= -1;
+        scale.x *= -1;
+        gameObject.transform.localScale = scale;
+
+    }
+
+    void UpdateSortingOrder () {
+
+        if (moveTarget.position.y > playerMoveTarget.position.y) {
 
             sprite.sortingOrder = -1;
 
@@ -67,26 +94,27 @@ public class EnemyController : MonoBehaviour {
 
         }
 
-        if (player && player.activeSelf && (distanceX > maxDistanceX || distanceY > maxDistanceY)) {
+    }
 
-            transform.position = Vector3.MoveTowards(sprite.bounds.min, playerSprite.bounds.min, maxSpeed * Time.deltaTime) + sprite.bounds.extents;
+    void Punched () {
 
-            anima.SetBool("running", true);
+        if (Time.time > stunnedNextTick) {
 
-        } else {
+            hasBeenPunched = false;
 
-            anima.SetBool("running", false);
+            stunnedNextTick = 0f;
 
         }
 
+        anima.SetBool("punched", hasBeenPunched);
+
     }
 
-    void Flip (float horizontalDirection) {
+    public void Punch () {
 
-        Vector2 scale = gameObject.transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * Mathf.Sign(horizontalDirection);
+        hasBeenPunched = true;
 
-        gameObject.transform.localScale = scale;
+        stunnedNextTick = Time.time + stunnedDelayRate;
 
     }
 
