@@ -53,7 +53,7 @@ public class SampleController : MonoBehaviour {
 
     private List<Platform> platforms = new List<Platform>();
 
-    void Update () {
+    void Start() {
 
         Platform examplePlatform = new Platform();
 
@@ -61,7 +61,7 @@ public class SampleController : MonoBehaviour {
 
         platforms.Add(examplePlatform);
 
-        Debug.Log(platforms.position);
+        Debug.Log(platforms[0].position);
 
     }
 
