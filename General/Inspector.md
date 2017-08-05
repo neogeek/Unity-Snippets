@@ -21,7 +21,7 @@ using UnityEngine;
 public class SampleController : MonoBehaviour {
 
     [Header("General Information")]
-    public string name = "Example";
+    public string label = "Example";
 
     [Space]
 
