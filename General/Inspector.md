@@ -5,7 +5,7 @@
 ```csharp
 using UnityEngine;
 
-public class InspectorExample : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     [Range(0.1f, 1.0f)]
     public float offset = 0.25f;
@@ -18,7 +18,7 @@ public class InspectorExample : MonoBehaviour {
 ```csharp
 using UnityEngine;
 
-public class InspectorExample : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     [Header("General Information")]
     public string name = "Example";
@@ -36,7 +36,7 @@ public class InspectorExample : MonoBehaviour {
 ```csharp
 using UnityEngine;
 
-public class InspectorExample : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     [Tooltip("Offset of GameObject from parent")]
     public float offset = 0.25f;

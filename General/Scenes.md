@@ -6,7 +6,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadSceneExample : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
     SceneManager.LoadScene("SceneName");
 
