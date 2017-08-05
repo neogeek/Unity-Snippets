@@ -3,12 +3,11 @@
 ## `DateTime.Now`
 
 ```csharp
-using System;
 using UnityEngine;
 
 public class SampleController : MonoBehaviour {
 
-    void Start () {
+    void Start() {
 
         Debug.Log(System.DateTime.Now.Date);
         Debug.Log(System.DateTime.Now.TimeOfDay);
