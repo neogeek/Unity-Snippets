@@ -1,18 +1,5 @@
 # Inspector
 
-## Range Slider
-
-```csharp
-using UnityEngine;
-
-public class SampleController : MonoBehaviour {
-
-    [Range(0.1f, 1.0f)]
-    public float offset = 0.25f;
-
-}
-```
-
 ## Headers and Spaces
 
 ```csharp
@@ -31,14 +18,14 @@ public class SampleController : MonoBehaviour {
 }
 ```
 
-## Tooltip
+## Range Slider
 
 ```csharp
 using UnityEngine;
 
 public class SampleController : MonoBehaviour {
 
-    [Tooltip("Offset of GameObject from parent")]
+    [Range(0.1f, 1.0f)]
     public float offset = 0.25f;
 
 }
@@ -53,6 +40,19 @@ public class SampleController : MonoBehaviour {
 
     [TextArea]
     public string description;
+
+}
+```
+
+## Tooltip
+
+```csharp
+using UnityEngine;
+
+public class SampleController : MonoBehaviour {
+
+    [Tooltip("Offset of GameObject from parent")]
+    public float offset = 0.25f;
 
 }
 ```
