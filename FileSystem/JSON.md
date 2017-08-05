@@ -9,10 +9,19 @@ using UnityEngine;
 
 [System.Serializable]
 public struct Vector {
-    public string timestamp;
-    public int x;
-    public int y;
-    public int z;
+    public float x;
+    public float y;
+    public float z;
+    public Vector3 position {
+        get {
+            return new Vector3(x, y, z);
+        }
+        set {
+            x = value.x;
+            y = value.y;
+            z = value.z;
+        }
+    }
 }
 
 [System.Serializable]
@@ -22,9 +31,11 @@ public struct VectorList {
 
 public class SampleController : MonoBehaviour {
 
-    void Start () {
+    void Start() {
 
-        VectorList list = JsonUtility.FromJson<VectorList>((Resources.Load("Data/vectors") as TextAsset).text);
+        VectorList list = JsonUtility.FromJson<VectorList>((Resources.Load("vectors") as TextAsset).text);
+
+        Debug.Log(list.vectors[0].position);
 
         Debug.Log(JsonUtility.ToJson(list));
 
@@ -33,7 +44,7 @@ public class SampleController : MonoBehaviour {
 }
 ```
 
-*Resources/Data/vectors.json*
+*Resources/vectors.json*
 
 ```json
 {
