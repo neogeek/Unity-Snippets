@@ -3,5 +3,15 @@
 ## Writing a file to the current directory
 
 ```csharp
-System.IO.File.WriteAllText("test.log", logData);
+using UnityEngine;
+
+public class SampleController : MonoBehaviour {
+
+    void Start() {
+
+        System.IO.File.WriteAllText("test.log", "Hello, World.");
+
+    }
+
+}
 ```
