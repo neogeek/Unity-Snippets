@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SampleController : MonoBehaviour {
 
-    private Vector3 GetMousePosition () {
+    private Vector3 GetMousePosition() {
 
         return Camera.main.ScreenToWorldPoint(new Vector3(
             Input.mousePosition.x,
@@ -17,7 +17,7 @@ public class SampleController : MonoBehaviour {
 
     }
 
-    void OnMouseDrag () {
+    void OnMouseDrag() {
 
         gameObject.transform.position = GetMousePosition();
 
