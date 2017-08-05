@@ -3,13 +3,13 @@
 ```csharp
 using UnityEngine;
 
-public class DelayExample : MonoBehaviour {
+public class SampleController : MonoBehaviour {
 
-    private float delayRate = 0.25f;
+    private readonly float delayRate = 0.5f;
 
     private float nextTick;
 
-    void Update () {
+    void Update() {
 
         if (Time.time > nextTick) {
 
