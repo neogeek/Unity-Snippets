@@ -43,3 +43,16 @@ public class SampleController : MonoBehaviour {
 
 }
 ```
+
+## Textarea
+
+```csharp
+using UnityEngine;
+
+public class SampleController : MonoBehaviour {
+
+    [TextArea]
+    public string description;
+
+}
+```
