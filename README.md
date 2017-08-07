@@ -39,6 +39,7 @@
     - [Invoke](/General/Invoke.md)
     - [Scenes](/General/Scenes.md)
     - [Singleton](/General/Singleton.md)
+    - [StartCoroutine](/General/StartCoroutine.md)
     - [yield](/General/yield.md)
 - [Interaction](/Interaction/)
     - [Dragging](/Interaction/Dragging.md)
