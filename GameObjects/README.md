@@ -16,7 +16,7 @@ GameObject newObject = Instantiate(objectToGenerate, new Vector3(0, 0, 0), Quate
 GameObject cubeObj = gameObject.transform.Find("Cube").gameObject;
 ```
 
-## Add a `public` Color Array to a GameObject
+## Add a public Color Array to a GameObject
 
 ```csharp
 using UnityEngine;
@@ -26,13 +26,13 @@ public class SampleController : MonoBehaviour {
 }
 ```
 
-## Access `public` Variable on Another GameObject
+## Access public Variable on Another GameObject
 
 ```csharp
 anotherGameObject.GetComponent<ScriptName>().currentActiveState = false;
 ```
 
-## Rotate GameObject with `Vector3`
+## Rotate GameObject with Vector3
 
 ```csharp
 newObject.transform.rotation = Quaternion.Euler(0, 0, -45.0f);

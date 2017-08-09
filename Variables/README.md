@@ -19,7 +19,7 @@ Debug.Log (int.Parse ("1.5")); // 1
 Debug.Log (float.Parse ("1.5")); // 1.5f
 ```
 
-## `Mathf.Ceiling`
+## Mathf.Ceiling
 
 ```csharp
 Debug.Log (Mathf.Ceil (10f)); // 10.0f
@@ -33,7 +33,7 @@ Debug.Log (Mathf.Ceil (10.5f)); // 10.0f
 Debug.Log (Mathf.Ceil (10.6f)); // 11.0f
 ```
 
-## `Mathf.Floor`
+## Mathf.Floor
 
 ```csharp
 Debug.Log (Mathf.Floor (10f)); // 10.0f
@@ -43,7 +43,7 @@ Debug.Log (Mathf.Floor (10f)); // 10.0f
 Debug.Log (Mathf.Floor (10.5f)); // 10.0f
 ```
 
-## `Mathf.FloorToInt`
+## Mathf.FloorToInt
 
 ```csharp
 Debug.Log (Mathf.FloorToInt (10f)); // 10

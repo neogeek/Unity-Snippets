@@ -1,6 +1,6 @@
-# `struct`
+# struct
 
-## Using a `struct` with a List
+## Using a struct with a List
 
 ```csharp
 using System.Collections.Generic;

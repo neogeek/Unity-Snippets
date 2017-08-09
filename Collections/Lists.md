@@ -1,6 +1,6 @@
 # Lists
 
-## `public` and `private` Class Lists
+## public and private Class Lists
 
 ```csharp
 using System.Collections.Generic;

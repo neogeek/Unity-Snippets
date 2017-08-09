@@ -1,4 +1,4 @@
-# `yield`
+# yield
 
 ```csharp
 using System.Collections;

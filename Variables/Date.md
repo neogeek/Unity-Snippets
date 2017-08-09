@@ -1,6 +1,6 @@
 # Date
 
-## `DateTime.Now`
+## DateTime.Now
 
 ```csharp
 using UnityEngine;
