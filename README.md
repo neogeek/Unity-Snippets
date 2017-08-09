@@ -36,6 +36,7 @@
 - [General](/General/)
     - [Delay](/General/Delay.md)
     - [Inspector](/General/Inspector.md)
+    - [PlayerPrefs](/General/PlayerPrefs.md)
     - [Invoke](/General/Invoke.md)
     - [Scenes](/General/Scenes.md)
     - [Singleton](/General/Singleton.md)
