@@ -1,46 +1,41 @@
 # Singleton
 
-**SampleSingleton.cs**
+**Singleton.cs**
 
 ```csharp
 using UnityEngine;
 
-public class SampleSingleton : MonoBehaviour {
+public class Singleton : MonoBehaviour {
 
-    public static SampleSingleton instance = null;
+    private static Singleton _instance;
 
-    public int highScore = 0;
-    public int currentScore = 0;
+    public static Singleton instance {
 
-    void Awake () {
+        get { return _instance; }
 
-        if (instance != null && instance != this) {
+    }
+
+    private void Awake () {
+
+        if (_instance != null && _instance != this) {
 
             Destroy(gameObject);
 
-            return;
+        } else {
+
+            _instance = this;
+
+            DontDestroyOnLoad(gameObject);
 
         }
 
-        instance = this;
-
-        DontDestroyOnLoad(gameObject);
-
     }
 
-    public void SceneSetup () {
+    private void OnDestroy() {
 
-        currentScore = 0;
+        if (_instance == this) {
 
-    }
-
-    void Update () {
-
-        currentScore = currentScore + 1;
-
-        if (currentScore > highScore) {
-
-            highScore = currentScore;
+            _instance = null;
 
         }
 
@@ -49,26 +44,12 @@ public class SampleSingleton : MonoBehaviour {
 }
 ```
 
-**Loader.cs**
+**SampleController.cs**
 
 ```csharp
 using UnityEngine;
 
-public class Loader : MonoBehaviour {
-
-    public GameObject sampleSingleton;
-
-    void Awake () {
-
-        if (SampleSingleton.instance == null) {
-
-            Instantiate(sampleSingleton);
-
-        }
-
-        SampleSingleton.instance.SceneSetup();
-
-    }
+public class SampleController : Singleton {
 
 }
 ```
