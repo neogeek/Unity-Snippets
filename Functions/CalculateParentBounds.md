@@ -1,48 +1,45 @@
 # CalculateParentBounds
 
 ```csharp
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public struct LocalBounds {
-    public float minX;
-    public float maxX;
-    public float minY;
-    public float maxY;
-    public float minZ;
-    public float maxZ;
+    public Vector3 min;
+    public Vector3 max;
 }
-```
 
-```csharp
-LocalBounds CalculateParentBounds (GameObject parentObj) {
+public class SampleController : MonoBehaviour {
 
-    LocalBounds caluclatedBounds = new LocalBounds();
+    LocalBounds CalculateParentBounds(GameObject parentObj) {
 
-    caluclatedBounds.minX = 0;
-    caluclatedBounds.maxX = 0;
+        LocalBounds caluclatedBounds = new LocalBounds();
 
-    caluclatedBounds.minY = 0;
-    caluclatedBounds.maxY = 0;
+        for (int i = 0; i < parentObj.transform.childCount; i++) {
 
-    for (int i = 0; i < parentObj.transform.childCount; i++) {
+            GameObject child = parentObj.transform.GetChild(i).gameObject;
 
-        Bounds currentBounds = parentObj.transform.GetChild(i).GetComponent<Renderer>().bounds;
+            Bounds bounds = child.GetComponent<Renderer>().bounds;
+            Vector3 position = child.transform.position;
 
-        if (currentBounds.min.x < caluclatedBounds.minX) {
-
-            caluclatedBounds.minX = currentBounds.min.x;
-
-        } else if (currentBounds.max.x > caluclatedBounds.maxX) {
-
-            caluclatedBounds.maxX = currentBounds.max.x;
+            caluclatedBounds.min = Vector3.Min(caluclatedBounds.min, bounds.min);
+            caluclatedBounds.max = Vector3.Max(caluclatedBounds.max, bounds.max);
 
         }
 
+        return caluclatedBounds;
+
     }
 
-    return caluclatedBounds;
+    void OnDrawGizmosSelected() {
+
+        LocalBounds bounds = CalculateParentBounds(gameObject);
+
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(bounds.min, 0.25f);
+        Gizmos.DrawWireSphere(bounds.max, 0.25f);
+
+    }
 
 }
 ```
