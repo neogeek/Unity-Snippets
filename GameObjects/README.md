@@ -7,7 +7,7 @@
 ## Dynamically Generate Objects
 
 ```csharp
-GameObject newObject = Instantiate(objectToGenerate, new Vector3(0, 0, 0), Quaternion.identity);
+GameObject newObject = Instantiate(objectToGenerate, Vector3.zero, Quaternion.identity);
 ```
 
 ## Find Child GameObject
@@ -22,7 +22,9 @@ GameObject cubeObj = gameObject.transform.Find("Cube").gameObject;
 using UnityEngine;
 
 public class SampleController : MonoBehaviour {
+
     public Color[] randomColors;
+
 }
 ```
 
@@ -47,9 +49,9 @@ public class SampleController : MonoBehaviour {
 
     public GameObject gameObj;
 
-    void Start () {
+    void Start() {
 
-        GameObject tempObj = Instantiate(gameObj, new Vector3(0, 0, 0) + gameObject.transform.position, Quaternion.identity);
+        GameObject tempObj = Instantiate(gameObj, gameObject.transform.position, Quaternion.identity);
 
         tempObj.transform.SetParent(gameObject.transform);
 
