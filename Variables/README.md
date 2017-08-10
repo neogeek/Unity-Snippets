@@ -73,17 +73,17 @@ public class SampleController : MonoBehaviour {
 
     private System.Random rnd;
 
-    void Awake () {
+    void Awake() {
 
-        rnd = new System.Random ();
+        rnd = new System.Random();
 
     }
 
-    void Update () {
+    void Update() {
 
-        Debug.Log (rnd.Next (0, 10));
-        Debug.Log (rnd.Next (0, 10));
-        Debug.Log (rnd.Next (0, 10));
+        Debug.Log(rnd.Next(0, 10));
+        Debug.Log(rnd.Next(0, 10));
+        Debug.Log(rnd.Next(0, 10));
 
     }
 
@@ -99,9 +99,9 @@ public class SampleController : MonoBehaviour {
 
     public Color[] randomColors;
 
-    void Update () {
+    void Update() {
 
-        Debug.Log (randomColors[Random.Range (0, randomColors.Length)]);
+        Debug.Log(randomColors[Random.Range(0, randomColors.Length)]);
 
     }
 

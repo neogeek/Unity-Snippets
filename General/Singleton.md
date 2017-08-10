@@ -15,7 +15,7 @@ public class Singleton : MonoBehaviour {
 
     }
 
-    private void Awake () {
+    private void Awake() {
 
         if (_instance != null && _instance != this) {
 

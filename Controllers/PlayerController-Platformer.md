@@ -8,9 +8,9 @@
 ```csharp
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof (Animator))]
+[RequireComponent(typeof (Rigidbody2D))]
+[RequireComponent(typeof (SpriteRenderer))]
 public class PlayerController : MonoBehaviour {
 
     public Transform groundTrigger;
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
     private float jumpDelayRate = 0.1f;
     private float nextJumpTick;
 
-    void Start () {
+    void Start() {
 
         if (Physics2D.gravity.y != -30.0f) {
 
@@ -42,13 +42,13 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Update () {
+    void Update() {
 
         jumpPressed = Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
 
     }
 
-    void FixedUpdate () {
+    void FixedUpdate() {
 
         float moveHorizontal = Input.GetAxis("Horizontal");
 
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Flip (float moveHorizontal) {
+    void Flip(float moveHorizontal) {
 
         Vector2 scale = gameObject.transform.localScale;
         scale.x = Mathf.Abs(scale.x) * Mathf.Sign(moveHorizontal);
