@@ -5,20 +5,21 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-    private Transform target;
+    public Transform target;
 
     private Camera mainCamera;
 
-    private float dampRate = 0.3f;
+    private readonly float dampRate = 0.3f;
+
     private Vector3 velocity = Vector3.zero;
 
-    void Awake () {
+    void Awake() {
 
         mainCamera = Camera.main;
 
     }
 
-    void Update () {
+    void Update() {
 
         if (target) {
 
