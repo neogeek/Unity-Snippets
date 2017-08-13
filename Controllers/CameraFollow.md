@@ -17,6 +17,12 @@ public class CameraFollow : MonoBehaviour {
 
         mainCamera = Camera.main;
 
+        if (target == null) {
+
+            target = gameObject.transform;
+
+        }
+
     }
 
     void Update() {
