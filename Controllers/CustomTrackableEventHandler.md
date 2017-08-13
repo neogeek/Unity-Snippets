@@ -5,20 +5,17 @@ For use with the Unity [Vuforia](https://vuforia.com/) plugin. This is a modifie
 ```csharp
 using UnityEngine;
 
-namespace Vuforia
-{
+namespace Vuforia {
 
     public class CustomTrackableEventHandler : MonoBehaviour, ITrackableEventHandler {
 
-        private TrackableBehaviour mTrackableBehaviour;
-
         public GameObject trackableObj;
 
-        private bool isEnabled = true;
+        private TrackableBehaviour mTrackableBehaviour;
 
-        void Start () {
+        void Start() {
 
-            mTrackableBehaviour = GetComponent<TrackableBehaviour>();
+            mTrackableBehaviour = gameObject.GetComponent<TrackableBehaviour>();
 
             if (mTrackableBehaviour) {
 
@@ -30,7 +27,7 @@ namespace Vuforia
 
         }
 
-        public void OnTrackableStateChanged (TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus) {
+        public void OnTrackableStateChanged(TrackableBehaviour.Status previousStatus, TrackableBehaviour.Status newStatus) {
 
             if (newStatus == TrackableBehaviour.Status.DETECTED ||
                 newStatus == TrackableBehaviour.Status.TRACKED ||
@@ -46,17 +43,9 @@ namespace Vuforia
 
         }
 
-        void OnTrackingFound () {
+        void OnTrackingFound() {
 
-            Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
-
-            foreach (Renderer component in rendererComponents) {
-                component.enabled = true;
-            }
-
-            isEnabled = true;
-
-            if (trackableObj) {
+            if (trackableObj && !trackableObj.activeSelf) {
 
                 trackableObj.SetActive(true);
 
@@ -64,17 +53,9 @@ namespace Vuforia
 
         }
 
-        void OnTrackingLost () {
+        void OnTrackingLost() {
 
-            Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
-
-            foreach (Renderer component in rendererComponents) {
-                component.enabled = false;
-            }
-
-            isEnabled = false;
-
-            if (trackableObj) {
+            if (trackableObj && trackableObj.activeSelf) {
 
                 trackableObj.SetActive(false);
 
