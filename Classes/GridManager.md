@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class GridManager {
 
-    public int columns = 0;
-    public int rows = 0;
-
     public List<Vector2> gridPositions = new List<Vector2>();
 
-    public GridManager (int columnCount, int rowCount) {
+    private int columns = 0;
+    private int rows = 0;
+
+    public GridManager(int columnCount = 0, int rowCount = 0) {
 
         columns = columnCount;
         rows = rowCount;
@@ -20,7 +20,7 @@ public class GridManager {
 
     }
 
-    public void Reset () {
+    public void Reset() {
 
         gridPositions.Clear();
 
@@ -36,23 +36,9 @@ public class GridManager {
 
     }
 
-    public Vector2 RandomPosition (bool remove = true) {
+    public Vector2 RandomPosition(bool remove = false) {
 
         int index = Random.Range(0, gridPositions.Count);
-
-        return ReturnAndRemove(index, remove);
-
-    }
-
-    public Vector2 FindByPosition (Vector2 position, bool remove = true) {
-
-        int index = gridPositions.IndexOf(position);
-
-        return ReturnAndRemove(index, remove);
-
-    }
-
-    public Vector2 ReturnAndRemove (int index, bool remove = true) {
 
         Vector2 position = gridPositions[index];
 
