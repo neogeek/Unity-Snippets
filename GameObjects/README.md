@@ -2,7 +2,7 @@
 
 - [Movement](/GameObjects/Movement.md)
 - [Renderer](/GameObjects/Renderer.md)
-- [RidgedBody](/GameObjects/RidgedBody.md)
+- [Rigidbody](/GameObjects/Rigidbody.md)
 
 ## Dynamically Generate Objects
 

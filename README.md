@@ -32,7 +32,7 @@
 - [GameObjects](/GameObjects/)
     - [Movement](/GameObjects/Movement.md)
     - [Renderer](/GameObjects/Renderer.md)
-    - [RidgedBody](/GameObjects/RidgedBody.md)
+    - [Rigidbody](/GameObjects/Rigidbody.md)
 - [General](/General/)
     - [Delay](/General/Delay.md)
     - [Inspector](/General/Inspector.md)

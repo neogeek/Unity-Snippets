@@ -1,4 +1,4 @@
-# RidgedBody
+# Rigidbody
 
 ## Apply Force to GameObject
 
