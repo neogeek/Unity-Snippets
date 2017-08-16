@@ -27,7 +27,7 @@ public class SampleController : MonoBehaviour {
 
     void Update() {
 
-        if (Input.GetKey("space") && !IsInvoking("FireProjectile")) {
+        if (Input.GetButton("Fire1") && !IsInvoking("FireProjectile")) {
 
             Invoke("FireProjectile", 1.0f);
 
