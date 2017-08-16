@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
     private readonly float horizontalSpeed = 10.0f;
     private readonly float jumpForce = 700.0f;
     private readonly int maxJumpCount = 2;
-    private readonly float groundTriggerRadius = 0.1f;
+    private readonly float triggerRadius = 0.1f;
 
     private float moveHorizontal = 0.0f;
     private int horizontalDirection = 1;
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour {
 
     void Jump() {
 
-        bool grounded = Physics2D.OverlapCircle(groundTrigger.position, groundTriggerRadius, groundLayers);
+        bool grounded = Physics2D.OverlapCircle(groundTrigger.position, triggerRadius, groundLayers);
 
         if (grounded) {
 
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour {
     void OnDrawGizmos() {
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(groundTrigger.position, groundTriggerRadius);
+        Gizmos.DrawWireSphere(groundTrigger.position, triggerRadius);
 
     }
 
