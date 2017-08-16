@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
 
-        moveHorizontal = Input.GetAxisRaw("Horizontal");
+        moveHorizontal = Input.GetAxis("Horizontal");
         jumpPressed = Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
 
     }
