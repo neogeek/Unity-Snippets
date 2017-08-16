@@ -1,110 +1,93 @@
 # PlayerController.cs (Platformer)
 
-### Variables
-
-- **groundTrigger** - An empty game object positioned at the bottom of the player object. Must be a child of the player object.
-- **groundLayers** - Layer mask with only the platforms and floors selected.
-
 ```csharp
 using UnityEngine;
 
-[RequireComponent(typeof (Animator))]
 [RequireComponent(typeof (Rigidbody2D))]
-[RequireComponent(typeof (SpriteRenderer))]
 public class PlayerController : MonoBehaviour {
 
     public Transform groundTrigger;
     public LayerMask groundLayers;
 
     private Rigidbody2D rb;
-    private Animator anima;
 
-    private float horizontalSpeed = 10.0f;
-    private float jumpForce = 700.0f;
+    private readonly float horizontalSpeed = 10.0f;
+    private readonly float jumpForce = 700.0f;
+    private readonly int maxJumpCount = 2;
+    private readonly float groundTriggerRadius = 0.1f;
 
+    private float moveHorizontal = 0.0f;
+    private int horizontalDirection = 1;
     private bool jumpPressed = false;
-    private bool canJump = true;
-    private bool doubleJumpUsed = false;
+    private int currentJumpCount = 0;
 
-    private float jumpDelayRate = 0.1f;
-    private float nextJumpTick;
-
-    void Start() {
-
-        if (Physics2D.gravity.y != -30.0f) {
-
-            Debug.LogWarning("PlayerController runs smoother when gravity is set to 0,-30.");
-
-        }
+    void Awake() {
 
         rb = gameObject.GetComponent<Rigidbody2D>();
-        anima = gameObject.GetComponent<Animator>();
 
     }
 
     void Update() {
 
+        moveHorizontal = Input.GetAxisRaw("Horizontal");
         jumpPressed = Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
 
     }
 
     void FixedUpdate() {
 
-        float moveHorizontal = Input.GetAxis("Horizontal");
+        if (Mathf.Abs(moveHorizontal) > 0 && Mathf.Sign(moveHorizontal) != horizontalDirection) {
 
-        anima.SetFloat("speed", Mathf.Abs(moveHorizontal));
-
-        if (Mathf.Abs(moveHorizontal) > 0) {
-
-            Flip(moveHorizontal);
+            Flip();
 
         }
 
-        Vector2 movement = new Vector2(moveHorizontal * horizontalSpeed, rb.velocity.y);
+        Move();
+        Jump();
 
-        rb.velocity = movement;
+    }
 
-        if (Time.time > nextJumpTick) {
+    void Move() {
 
-            bool grounded = Physics2D.OverlapCircle(groundTrigger.position, 0.1f, groundLayers);
+        rb.velocity = new Vector2(moveHorizontal * horizontalSpeed, rb.velocity.y);
 
-            if (grounded) {
+    }
 
-                canJump = true;
-                doubleJumpUsed = false;
+    void Jump() {
 
-            }
+        bool grounded = Physics2D.OverlapCircle(groundTrigger.position, groundTriggerRadius, groundLayers);
 
-            if (canJump && jumpPressed) {
+        if (grounded) {
 
-                rb.velocity = new Vector2(rb.velocity.x, 0);
+            currentJumpCount = 0;
 
-                rb.AddForce(new Vector2(0, jumpForce));
+        }
 
-                if (!doubleJumpUsed) {
+        if (jumpPressed && currentJumpCount < maxJumpCount) {
 
-                    doubleJumpUsed = true;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
 
-                } else {
+            rb.AddForce(new Vector2(0, jumpForce));
 
-                    canJump = false;
-
-                }
-
-                nextJumpTick = Time.time + jumpDelayRate;
-
-            }
+            currentJumpCount += 1;
 
         }
 
     }
 
-    void Flip(float moveHorizontal) {
+    void Flip() {
 
         Vector2 scale = gameObject.transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * Mathf.Sign(moveHorizontal);
-
+        horizontalDirection *= -1;
+        scale.x *= -1;
         gameObject.transform.localScale = scale;
+
+    }
+
+    void OnDrawGizmos() {
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(groundTrigger.position, groundTriggerRadius);
 
     }
 
