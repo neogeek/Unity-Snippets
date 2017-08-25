@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour {
     public Transform groundTrigger;
     public LayerMask groundLayers;
 
+    public Transform wallTrigger;
+    public LayerMask wallLayers;
+
     private Rigidbody2D rb;
 
     private readonly float horizontalSpeed = 10.0f;
     private readonly float jumpForce = 700.0f;
     private readonly int maxJumpCount = 2;
     private readonly float triggerRadius = 0.1f;
+    private readonly float maxWallSlideSpeed = -2.0f;
 
     private float moveHorizontal = 0.0f;
     private int horizontalDirection = 1;
@@ -56,6 +60,13 @@ public class PlayerController : MonoBehaviour {
     void Jump() {
 
         bool grounded = Physics2D.OverlapCircle(groundTrigger.position, triggerRadius, groundLayers);
+        bool touchingWall = Physics2D.OverlapCircle(wallTrigger.position, triggerRadius, wallLayers);
+
+        if (touchingWall && !grounded && moveHorizontal != 0) {
+
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, maxWallSlideSpeed));
+
+        }
 
         if (grounded) {
 
