@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour {
     void Update() {
 
         moveHorizontal = Input.GetAxis("Horizontal");
-        jumpPressed = Input.GetButtonDown("Jump") || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
+        jumpPressed = Input.GetButtonDown("Jump");
 
     }
 
