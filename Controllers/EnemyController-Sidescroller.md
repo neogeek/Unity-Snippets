@@ -75,7 +75,7 @@ public class EnemyController : MonoBehaviour {
 
     void Flip() {
 
-        Vector2 scale = gameObject.transform.localScale;
+        Vector3 scale = gameObject.transform.localScale;
         horizontalDirection *= -1;
         scale.x *= -1;
         gameObject.transform.localScale = scale;
