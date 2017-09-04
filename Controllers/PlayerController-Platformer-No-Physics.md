@@ -452,7 +452,7 @@ public class PlayerController : MonoBehaviour {
 
             Vector2 platformPoint = platform.point - (Vector2) platformTrigger.localPosition;
 
-            if (RoundFloat(platform.point.y) >= RoundFloat(platform.collider.bounds.max.y)) {
+            if (RoundFloat(platform.point.y) == RoundFloat(platform.collider.bounds.max.y)) {
 
                 Debug.DrawLine(gameObject.transform.position, platformPoint, Color.green);
 
@@ -462,19 +462,30 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        return (Vector2) gameObject.transform.position + Vector2.down * 100f;
+        return gameObject.transform.position;
 
     }
 
     Vector2 GetNextWallPoint() {
 
-        RaycastHit2D wall = Physics2D.Raycast(wallTrigger.position, wallTrigger.right * horizontalDirection, Mathf.Infinity, wallLayerMask);
+        RaycastHit2D[] walls = Physics2D.RaycastAll(wallTrigger.position, wallTrigger.right * horizontalDirection, Mathf.Infinity, wallLayerMask);
 
-        Vector2 wallPoint = wall.point - new Vector2(wallTrigger.localPosition.x * horizontalDirection, 0);
+        foreach (RaycastHit2D wall in walls) {
 
-        Debug.DrawLine(gameObject.transform.position, wallPoint, Color.green);
+            Vector2 wallPoint = wall.point - (Vector2) wallTrigger.localPosition;
 
-        return RoundVector2(wallPoint);
+            if (RoundFloat(wall.point.x) == RoundFloat(wall.collider.bounds.min.x) ||
+                RoundFloat(wall.point.x) == RoundFloat(wall.collider.bounds.max.x)) {
+
+                Debug.DrawLine(gameObject.transform.position, wallPoint, Color.green);
+
+                return RoundVector2(wallPoint);
+
+            }
+
+        }
+
+        return gameObject.transform.position;
 
     }
 
