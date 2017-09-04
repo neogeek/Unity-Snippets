@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour {
 
         inputJumpsAvalible = maxAvalibleJumps;
 
-        velocity.x = horizontalDirection * horizontalSpeed;
+        velocity.x = inputHorizontal * horizontalSpeed;
         velocity.y = 0;
 
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
@@ -226,7 +226,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Mathf.Abs(inputHorizontal) > 0) {
 
-            velocity.x = horizontalDirection * horizontalSpeed;
+            velocity.x = inputHorizontal * horizontalSpeed;
 
         }
 
@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Mathf.Abs(inputHorizontal) > 0) {
 
-            velocity.x = horizontalDirection * horizontalSpeed;
+            velocity.x = inputHorizontal * horizontalSpeed;
 
         }
 
@@ -402,7 +402,7 @@ public class PlayerController : MonoBehaviour {
 
         StartCoroutine(jumpDelayCoroutine);
 
-        velocity.x = horizontalDirection * horizontalSpeed;
+        velocity.x = inputHorizontal * horizontalSpeed;
         velocity.y = 0;
 
         state = STATE.PLAYER_FALLING;
