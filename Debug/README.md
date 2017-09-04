@@ -1,6 +1,7 @@
 # Debug
 
 - [Gizmos](/Debug/Gizmos.md)
+- [GUI](/Debug/GUI.md)
 - [Log](/Debug/Log.md)
 
 ## Debug.DrawRay

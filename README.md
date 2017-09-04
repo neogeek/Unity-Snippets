@@ -21,6 +21,7 @@
     - [PlayerController (Sidescroller)](/Controllers/PlayerController-Sidescroller.md)
 - [Debug](/Debug/)
     - [Gizmos](/Debug/Gizmos.md)
+    - [GUI](/Debug/GUI.md)
     - [Log](/Debug/Log.md)
 - [Deploy](/Deploy/)
     - [Fire-TV](/Deploy/Fire-TV.md)
