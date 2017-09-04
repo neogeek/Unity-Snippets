@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour {
 
         inputJumpsAvalible = maxAvalibleJumps;
 
-        velocity.x = inputHorizontal * horizontalSpeed;
+        velocity.x = horizontalDirection * horizontalSpeed;
         velocity.y = 0;
 
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
@@ -226,7 +226,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Mathf.Abs(inputHorizontal) > 0) {
 
-            velocity.x = inputHorizontal * horizontalSpeed;
+            velocity.x = horizontalDirection * horizontalSpeed;
 
         }
 
@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Mathf.Abs(inputHorizontal) > 0) {
 
-            velocity.x = inputHorizontal * horizontalSpeed;
+            velocity.x = horizontalDirection * horizontalSpeed;
 
         }
 
