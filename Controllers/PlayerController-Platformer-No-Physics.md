@@ -450,7 +450,7 @@ public class PlayerController : MonoBehaviour {
 
         foreach (RaycastHit2D platform in platforms) {
 
-            Vector2 platformPoint = platform.point - (Vector2) platformTrigger.localPosition;
+            Vector2 platformPoint = platform.point - (Vector2) (platformTrigger.localPosition * gameObject.transform.localScale.y);
 
             if (RoundFloat(platform.point.y) == RoundFloat(platform.collider.bounds.max.y)) {
 
@@ -472,7 +472,7 @@ public class PlayerController : MonoBehaviour {
 
         foreach (RaycastHit2D wall in walls) {
 
-            Vector2 wallPoint = wall.point - (Vector2) wallTrigger.localPosition;
+            Vector2 wallPoint = wall.point - (Vector2) (wallTrigger.localPosition * gameObject.transform.localScale.x);
 
             if (RoundFloat(wall.point.x) == RoundFloat(wall.collider.bounds.min.x) ||
                 RoundFloat(wall.point.x) == RoundFloat(wall.collider.bounds.max.x)) {
