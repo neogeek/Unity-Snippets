@@ -46,8 +46,6 @@ public class PlayerController : MonoBehaviour {
     private readonly float jumpSpeed = 14.0f;
     private readonly int maxAvalibleJumps = 2;
     private readonly WaitForSeconds horizontalMovementDelay = new WaitForSeconds(0.5f);
-    private readonly WaitForSeconds jumpDelay = new WaitForSeconds(0.5f);
-    private IEnumerator jumpDelayCoroutine;
 
     private Vector2 velocity = Vector2.zero;
     private int horizontalDirection = 1;
@@ -110,12 +108,6 @@ public class PlayerController : MonoBehaviour {
 
     void Idle() {
 
-        if (jumpDelayCoroutine != null) {
-
-            StopCoroutine(jumpDelayCoroutine);
-
-        }
-
         inputJumpsAvalible = maxAvalibleJumps;
 
         velocity = Vector2.zero;
@@ -159,12 +151,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Running() {
-
-        if (jumpDelayCoroutine != null) {
-
-            StopCoroutine(jumpDelayCoroutine);
-
-        }
 
         inputJumpsAvalible = maxAvalibleJumps;
 
@@ -219,14 +205,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Falling() {
-
-        if (inputJumpsAvalible > 0) {
-
-            jumpDelayCoroutine = DisallowJump();
-
-            StartCoroutine(jumpDelayCoroutine);
-
-        }
 
         if (Mathf.Abs(inputHorizontal) > 0) {
 
@@ -338,12 +316,6 @@ public class PlayerController : MonoBehaviour {
 
     void WallSlide() {
 
-        if (jumpDelayCoroutine != null) {
-
-            StopCoroutine(jumpDelayCoroutine);
-
-        }
-
         inputJumpsAvalible = maxAvalibleJumps;
 
         velocity.x = 0;
@@ -407,10 +379,6 @@ public class PlayerController : MonoBehaviour {
     void WallDismount() {
 
         Flip();
-
-        jumpDelayCoroutine = DisallowJump();
-
-        StartCoroutine(jumpDelayCoroutine);
 
         velocity.x = inputHorizontal * horizontalSpeed;
         velocity.y = 0;
@@ -523,14 +491,6 @@ public class PlayerController : MonoBehaviour {
         yield return horizontalMovementDelay;
 
         inputHorizontalEnabled = true;
-
-    }
-
-    IEnumerator DisallowJump() {
-
-        yield return jumpDelay;
-
-        inputJumpsAvalible = 0;
 
     }
 
