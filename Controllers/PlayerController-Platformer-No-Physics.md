@@ -57,12 +57,6 @@ public class PlayerController : MonoBehaviour {
     private bool inputJump = false;
     private int inputJumpsAvalible = 0;
 
-    void Start() {
-
-        jumpDelayCoroutine = DisallowJump();
-
-    }
-
     void Update() {
 
         if (inputHorizontalEnabled) {
@@ -116,7 +110,11 @@ public class PlayerController : MonoBehaviour {
 
     void Idle() {
 
-        StopCoroutine(jumpDelayCoroutine);
+        if (jumpDelayCoroutine != null) {
+
+            StopCoroutine(jumpDelayCoroutine);
+
+        }
 
         inputJumpsAvalible = maxAvalibleJumps;
 
@@ -162,7 +160,11 @@ public class PlayerController : MonoBehaviour {
 
     void Running() {
 
-        StopCoroutine(jumpDelayCoroutine);
+        if (jumpDelayCoroutine != null) {
+
+            StopCoroutine(jumpDelayCoroutine);
+
+        }
 
         inputJumpsAvalible = maxAvalibleJumps;
 
@@ -219,6 +221,8 @@ public class PlayerController : MonoBehaviour {
     void Falling() {
 
         if (inputJumpsAvalible > 0) {
+
+            jumpDelayCoroutine = DisallowJump();
 
             StartCoroutine(jumpDelayCoroutine);
 
@@ -334,7 +338,11 @@ public class PlayerController : MonoBehaviour {
 
     void WallSlide() {
 
-        StopCoroutine(jumpDelayCoroutine);
+        if (jumpDelayCoroutine != null) {
+
+            StopCoroutine(jumpDelayCoroutine);
+
+        }
 
         inputJumpsAvalible = maxAvalibleJumps;
 
@@ -399,6 +407,8 @@ public class PlayerController : MonoBehaviour {
     void WallDismount() {
 
         Flip();
+
+        jumpDelayCoroutine = DisallowJump();
 
         StartCoroutine(jumpDelayCoroutine);
 
