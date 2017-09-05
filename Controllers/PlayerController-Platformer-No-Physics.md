@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour {
     private readonly float gravity = 20.0f;
     private readonly float wallSlideSpeed = -2.0f;
     private readonly float horizontalSpeed = 6.0f;
-    private readonly float horizontalInputThreshold = 1.0f;
     private readonly float jumpSpeed = 14.0f;
     private readonly int maxAvalibleJumps = 2;
     private readonly WaitForSeconds horizontalMovementDelay = new WaitForSeconds(0.5f);
