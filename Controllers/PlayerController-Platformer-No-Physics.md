@@ -51,8 +51,36 @@ public class PlayerController : MonoBehaviour {
 
     private float inputHorizontal = 0;
     private bool inputHorizontalEnabled = true;
-    private bool inputJump = false;
     private int inputJumpsAvalible = 0;
+
+    private bool _inputJump = false;
+    private bool inputJump {
+
+        get {
+
+            if (_inputJump) {
+
+                _inputJump = false;
+
+                return true;
+
+            }
+
+            return false;
+
+        }
+
+        set {
+
+            if (value) {
+
+                _inputJump = true;
+
+            }
+
+        }
+
+    }
 
     void Update() {
 
