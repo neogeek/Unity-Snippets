@@ -131,6 +131,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
+        ResetInputVariables();
+
     }
 
     void Idle() {
@@ -423,6 +425,12 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    void ResetInputVariables() {
+
+        _inputJump = false;
+
+    }
+
     Vector2 CalculatePlayerMovement(Vector2 originalPosition, Vector2 platformPoint, Vector2 wallPoint) {
 
         Vector2 newPosition = new Vector2(originalPosition.x, originalPosition.y);
@@ -522,4 +530,5 @@ public class PlayerController : MonoBehaviour {
     }
 
 }
+
 ```
