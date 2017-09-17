@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJump) {
 
-            inputJumpsAvalible -= 1;
+            JumpingEnter();
 
             state = STATE.PLAYER_JUMPING;
 
@@ -210,7 +210,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJump) {
 
-            inputJumpsAvalible -= 1;
+            JumpingEnter();
 
             state = STATE.PLAYER_JUMPING;
 
@@ -225,6 +225,12 @@ public class PlayerController : MonoBehaviour {
             return;
 
         }
+
+    }
+
+    void FallingEnter() {
+
+        velocity.y = 0;
 
     }
 
@@ -248,9 +254,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJumpsAvalible > 0 && inputJump) {
 
-            inputJumpsAvalible -= 1;
-
-            velocity.y = 0;
+            JumpingEnter();
 
             state = STATE.PLAYER_JUMPING;
 
@@ -260,6 +264,8 @@ public class PlayerController : MonoBehaviour {
 
         if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
             hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
+
+            WallSlideEnter();
 
             state = STATE.PLAYER_WALL_SLIDE;
 
@@ -277,6 +283,14 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    void JumpingEnter() {
+
+        inputJumpsAvalible -= 1;
+
+        velocity.y = jumpSpeed;
+
+    }
+
     void Jumping() {
 
         if (Mathf.Abs(inputHorizontal) > 0) {
@@ -291,23 +305,13 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (velocity.y == 0) {
-
-            velocity.y = jumpSpeed;
-
-        } else {
-
-            velocity.y -= gravity * Time.deltaTime;
-
-        }
+        velocity.y -= gravity * Time.deltaTime;
 
         gameObject.transform.position = Move();
 
         if (inputJumpsAvalible > 0 && inputJump) {
 
-            inputJumpsAvalible -= 1;
-
-            velocity.y = 0;
+            JumpingEnter();
 
             state = STATE.PLAYER_JUMPING;
 
@@ -318,6 +322,8 @@ public class PlayerController : MonoBehaviour {
         if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
             hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
 
+            WallSlideEnter();
+
             state = STATE.PLAYER_WALL_SLIDE;
 
             return;
@@ -326,7 +332,7 @@ public class PlayerController : MonoBehaviour {
 
         if (hitTop.HasValue && hitTop.Value.y == gameObject.transform.position.y) {
 
-            velocity.y = 0;
+            FallingEnter();
 
             state = STATE.PLAYER_FALLING;
 
@@ -344,11 +350,15 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void WallSlide() {
+    void WallSlideEnter() {
 
         inputJumpsAvalible = maxAvalibleJumps;
 
         velocity.x = 0;
+
+    }
+
+    void WallSlide() {
 
         if (velocity.y > 0) {
 
@@ -372,7 +382,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJump && inputHorizontal != 0) {
 
-            velocity.y = jumpSpeed;
+            JumpingEnter();
 
             state = STATE.PLAYER_JUMPING;
 
@@ -411,12 +421,12 @@ public class PlayerController : MonoBehaviour {
 
         Flip();
 
-        StartCoroutine(DisallowHorizontalMovement());
+        StopCoroutine("DisallowHorizontalMovement");
+        StartCoroutine("DisallowHorizontalMovement");
 
         velocity.x = horizontalDirection * horizontalSpeed;
-        velocity.y = jumpSpeed;
 
-        inputJumpsAvalible -= 1;
+        JumpingEnter();
 
         state = STATE.PLAYER_JUMPING;
 
@@ -427,7 +437,8 @@ public class PlayerController : MonoBehaviour {
         Flip();
 
         velocity.x = inputHorizontal * horizontalSpeed;
-        velocity.y = 0;
+
+        FallingEnter();
 
         state = STATE.PLAYER_FALLING;
 
