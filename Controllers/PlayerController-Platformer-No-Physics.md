@@ -60,23 +60,16 @@ public class PlayerController : MonoBehaviour {
 
     private bool _inputJump = false;
     private bool inputJump {
-
         get {
-
             return _inputJump;
-
         }
-
         set {
 
             if (value) {
-
                 _inputJump = true;
-
             }
 
         }
-
     }
 
     void Update() {
