@@ -7,11 +7,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public Transform platformTrigger;
-    public LayerMask platformLayerMask;
-
-    public Transform wallTrigger;
-    public LayerMask wallLayerMask;
+    public LayerMask leftLayerMask;
+    public LayerMask rightLayerMask;
+    public LayerMask topLayerMask;
+    public LayerMask bottomLayerMask;
 
     public enum STATE {
         PLAYER_IDLE,
@@ -54,20 +53,17 @@ public class PlayerController : MonoBehaviour {
     private bool inputHorizontalEnabled = true;
     private int inputJumpsAvalible = 0;
 
+    private Vector2? hitLeft;
+    private Vector2? hitRight;
+    private Vector2? hitTop;
+    private Vector2? hitBottom;
+
     private bool _inputJump = false;
     private bool inputJump {
 
         get {
 
-            if (_inputJump) {
-
-                _inputJump = false;
-
-                return true;
-
-            }
-
-            return false;
+            return _inputJump;
 
         }
 
@@ -87,15 +83,25 @@ public class PlayerController : MonoBehaviour {
 
         if (inputHorizontalEnabled) {
 
-            inputHorizontal = Input.GetAxisRaw("Horizontal");
+            if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) {
+
+                inputHorizontal = Mathf.Sign(Input.GetAxisRaw("Horizontal"));
+
+            } else {
+
+                inputHorizontal = 0;
+
+            }
 
         }
 
-        inputJump = Input.GetKeyDown(KeyCode.Space);
+        inputJump = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button16);
 
     }
 
     void FixedUpdate() {
+
+        UpdateHitVectors();
 
         switch (state) {
 
@@ -142,17 +148,14 @@ public class PlayerController : MonoBehaviour {
 
         velocity = Vector2.zero;
 
-        Vector2 platformPoint = GetNextPlatformPoint();
-        Vector2 wallPoint = GetNextWallPoint();
-
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
 
             Flip();
 
         }
 
-        if ((inputHorizontal == 1 && wallPoint.x > gameObject.transform.position.x) ||
-            (inputHorizontal == -1 && wallPoint.x < gameObject.transform.position.x)) {
+        if ((inputHorizontal == 1 && (!hitRight.HasValue || hitRight.HasValue && hitRight.Value.x > gameObject.transform.position.x)) ||
+            (inputHorizontal == -1 && (!hitLeft.HasValue || hitLeft.HasValue && hitLeft.Value.x < gameObject.transform.position.x))) {
 
             state = STATE.PLAYER_RUNNING;
 
@@ -160,7 +163,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (platformPoint.y < platformTrigger.position.y) {
+        if (hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y) {
 
             state = STATE.PLAYER_FALLING;
 
@@ -193,12 +196,10 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        Vector2 platformPoint = GetNextPlatformPoint();
-        Vector2 wallPoint = GetNextWallPoint();
+        gameObject.transform.position = Move();
 
-        gameObject.transform.position = CalculatePlayerMovement(gameObject.transform.position, platformPoint, wallPoint);
-
-        if (gameObject.transform.position.x == wallPoint.x) {
+        if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
+            hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
 
             state = STATE.PLAYER_IDLE;
 
@@ -206,7 +207,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (platformPoint.y < platformTrigger.position.y) {
+        if (!hitBottom.HasValue || hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y) {
 
             state = STATE.PLAYER_FALLING;
 
@@ -250,10 +251,7 @@ public class PlayerController : MonoBehaviour {
 
         velocity.y -= gravity * Time.deltaTime;
 
-        Vector2 platformPoint = GetNextPlatformPoint();
-        Vector2 wallPoint = GetNextWallPoint();
-
-        gameObject.transform.position = CalculatePlayerMovement(gameObject.transform.position, platformPoint, wallPoint);
+        gameObject.transform.position = Move();
 
         if (inputJumpsAvalible > 0 && inputJump) {
 
@@ -267,7 +265,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (gameObject.transform.position.x == wallPoint.x) {
+        if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
+            hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
 
             state = STATE.PLAYER_WALL_SLIDE;
 
@@ -275,7 +274,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (gameObject.transform.position.y == platformPoint.y) {
+        if (hitBottom.HasValue && hitBottom.Value.y == gameObject.transform.position.y) {
 
             state = STATE.PLAYER_RUNNING;
 
@@ -309,10 +308,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        Vector2 platformPoint = GetNextPlatformPoint();
-        Vector2 wallPoint = GetNextWallPoint();
-
-        gameObject.transform.position = CalculatePlayerMovement(gameObject.transform.position, platformPoint, wallPoint);
+        gameObject.transform.position = Move();
 
         if (inputJumpsAvalible > 0 && inputJump) {
 
@@ -326,9 +322,20 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (gameObject.transform.position.x == wallPoint.x) {
+        if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
+            hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
 
             state = STATE.PLAYER_WALL_SLIDE;
+
+            return;
+
+        }
+
+        if (hitTop.HasValue && hitTop.Value.y == gameObject.transform.position.y) {
+
+            velocity.y = 0;
+
+            state = STATE.PLAYER_FALLING;
 
             return;
 
@@ -360,14 +367,30 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        Vector2 platformPoint = GetNextPlatformPoint();
-        Vector2 wallPoint = GetNextWallPoint();
+        gameObject.transform.position = Move();
 
-        gameObject.transform.position = CalculatePlayerMovement(gameObject.transform.position, platformPoint, wallPoint);
-
-        if (inputJump) {
+        if (inputJump && inputHorizontal == 0) {
 
             state = STATE.PLAYER_WALL_JUMP;
+
+            return;
+
+        }
+
+        if (inputJump && inputHorizontal != 0) {
+
+            velocity.y = jumpSpeed;
+
+            state = STATE.PLAYER_JUMPING;
+
+            return;
+
+        }
+
+        if ((!hitRight.HasValue || hitRight.Value.x != gameObject.transform.position.x) &&
+            (!hitLeft.HasValue || hitLeft.Value.x != gameObject.transform.position.x)) {
+
+            state = STATE.PLAYER_FALLING;
 
             return;
 
@@ -381,7 +404,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (gameObject.transform.position.y == platformPoint.y) {
+        if (hitBottom.HasValue && hitBottom.Value.y == gameObject.transform.position.y) {
 
             state = STATE.PLAYER_IDLE;
 
@@ -426,95 +449,129 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    void UpdateHitVectors() {
+
+        Bounds colliderBounds = gameObject.GetComponent<BoxCollider2D>().bounds;
+
+        Vector2 rayCastSize = colliderBounds.size * 0.95f;
+
+        RaycastHit2D hitLeftRay = Physics2D.BoxCast(
+            new Vector2(colliderBounds.min.x - colliderBounds.extents.x, colliderBounds.center.y),
+            rayCastSize,
+            0f,
+            Vector2.left,
+            raycastDistance,
+            leftLayerMask
+        );
+
+        RaycastHit2D hitRightRay = Physics2D.BoxCast(
+            new Vector2(colliderBounds.max.x + colliderBounds.extents.x, colliderBounds.center.y),
+            rayCastSize,
+            0f,
+            Vector2.right,
+            raycastDistance,
+            rightLayerMask
+        );
+
+        RaycastHit2D hitTopRay = Physics2D.BoxCast(
+            new Vector2(colliderBounds.center.x, colliderBounds.max.y + colliderBounds.extents.y),
+            rayCastSize,
+            0f,
+            Vector2.up,
+            raycastDistance,
+            topLayerMask
+        );
+
+        RaycastHit2D hitBottomRay = Physics2D.BoxCast(
+            new Vector2(colliderBounds.center.x, colliderBounds.min.y - colliderBounds.extents.y),
+            rayCastSize,
+            0f,
+            Vector2.down,
+            raycastDistance,
+            bottomLayerMask
+        );
+
+        Vector2 position = gameObject.transform.position;
+
+        if (hitLeftRay) {
+
+            hitLeft = new Vector2(hitLeftRay.collider.bounds.max.x + colliderBounds.extents.x, 0);
+
+        } else {
+
+            hitLeft = null;
+
+        }
+
+        if (hitRightRay) {
+
+            hitRight = new Vector2(hitRightRay.collider.bounds.min.x - colliderBounds.extents.x, 0);
+
+        } else {
+
+            hitRight = null;
+
+        }
+
+        if (hitTopRay) {
+
+            hitTop = new Vector2(0, hitTopRay.collider.bounds.min.y - colliderBounds.extents.y);
+
+        } else {
+
+            hitTop = null;
+
+        }
+
+        if (hitBottomRay) {
+
+            hitBottom = new Vector2(0, hitBottomRay.collider.bounds.max.y + colliderBounds.extents.y);
+
+        } else {
+
+            hitBottom = null;
+
+        }
+
+    }
+
+    Vector2 Move() {
+
+        Vector2 position = gameObject.transform.position;
+
+        position += velocity * Time.deltaTime;
+
+        if (hitLeft.HasValue) {
+
+            position.x = Mathf.Max(position.x, hitLeft.Value.x);
+
+        }
+
+        if (hitRight.HasValue) {
+
+            position.x = Mathf.Min(position.x, hitRight.Value.x);
+
+        }
+
+        if (hitTop.HasValue) {
+
+            position.y = Mathf.Min(position.y, hitTop.Value.y);
+
+        }
+
+        if (hitBottom.HasValue) {
+
+            position.y = Mathf.Max(position.y, hitBottom.Value.y);
+
+        }
+
+        return position;
+
+    }
+
     void ResetInputVariables() {
 
         _inputJump = false;
-
-    }
-
-    Vector2 CalculatePlayerMovement(Vector2 originalPosition, Vector2 platformPoint, Vector2 wallPoint) {
-
-        Vector2 newPosition = new Vector2(originalPosition.x, originalPosition.y);
-
-        newPosition = (Vector2) newPosition + velocity * Time.deltaTime;
-
-        if (platformPoint.y < originalPosition.y) {
-
-            newPosition.y = Mathf.Max(newPosition.y, platformPoint.y);
-
-        }
-
-        if (velocity.x > 0 && wallPoint.x > originalPosition.x) {
-
-            newPosition.x = Mathf.Min(newPosition.x, wallPoint.x);
-
-        } else if (velocity.x < 0 && wallPoint.x < originalPosition.x) {
-
-            newPosition.x = Mathf.Max(newPosition.x, wallPoint.x);
-
-        }
-
-        return newPosition;
-
-    }
-
-    Vector2 GetNextPlatformPoint() {
-
-        RaycastHit2D[] platforms = Physics2D.RaycastAll(platformTrigger.position, -gameObject.transform.up, raycastDistance, platformLayerMask);
-
-        foreach (RaycastHit2D platform in platforms) {
-
-            Vector2 platformPoint = platform.point - (Vector2)(platformTrigger.localPosition * gameObject.transform.localScale.y);
-
-            if (RoundFloat(platform.point.y) == RoundFloat(platform.collider.bounds.max.y)) {
-
-                Debug.DrawLine(gameObject.transform.position, platformPoint, Color.green);
-
-                return RoundVector2(platformPoint);
-
-            }
-
-        }
-
-        return gameObject.transform.position + Vector3.down;
-
-    }
-
-    Vector2 GetNextWallPoint() {
-
-        RaycastHit2D[] walls = Physics2D.RaycastAll(wallTrigger.position, wallTrigger.right * horizontalDirection, raycastDistance, wallLayerMask);
-
-        foreach (RaycastHit2D wall in walls) {
-
-            Vector2 wallPoint = wall.point - (Vector2)(wallTrigger.localPosition * gameObject.transform.localScale.x);
-
-            if (RoundFloat(wall.point.x) == RoundFloat(wall.collider.bounds.min.x) ||
-                RoundFloat(wall.point.x) == RoundFloat(wall.collider.bounds.max.x)) {
-
-                Debug.DrawLine(gameObject.transform.position, wallPoint, Color.green);
-
-                return RoundVector2(wallPoint);
-
-            }
-
-        }
-
-        return gameObject.transform.position + Vector3.right * horizontalDirection;
-
-    }
-
-    Vector2 RoundVector2(Vector2 vector, int digits = 2) {
-
-        vector.x = RoundFloat(vector.x, digits);
-        vector.y = RoundFloat(vector.y, digits);
-
-        return vector;
-
-    }
-
-    float RoundFloat(float value, int digits = 2) {
-
-        return (float) Math.Round((double) value, digits);
 
     }
 
@@ -531,5 +588,4 @@ public class PlayerController : MonoBehaviour {
     }
 
 }
-
 ```
