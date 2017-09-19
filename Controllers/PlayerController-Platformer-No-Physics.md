@@ -44,13 +44,11 @@ public class PlayerController : MonoBehaviour {
     private readonly float jumpSpeed = 14.0f;
     private readonly int maxAvalibleJumps = 2;
     private readonly float raycastDistance = 1.0f;
-    private readonly WaitForSeconds horizontalMovementDelay = new WaitForSeconds(0.5f);
 
     private Vector2 velocity = Vector2.zero;
     private int horizontalDirection = 1;
 
     private float inputHorizontal = 0;
-    private bool inputHorizontalEnabled = true;
     private int inputJumpsAvalible = 0;
 
     private Vector2? hitLeft;
@@ -74,17 +72,13 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
 
-        if (inputHorizontalEnabled) {
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) {
 
-            if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) {
+            inputHorizontal = Mathf.Sign(Input.GetAxisRaw("Horizontal"));
 
-                inputHorizontal = Mathf.Sign(Input.GetAxisRaw("Horizontal"));
+        } else {
 
-            } else {
-
-                inputHorizontal = 0;
-
-            }
+            inputHorizontal = 0;
 
         }
 
@@ -372,19 +366,9 @@ public class PlayerController : MonoBehaviour {
 
         gameObject.transform.position = Move();
 
-        if (inputJump && inputHorizontal == 0) {
+        if (inputJump) {
 
             state = STATE.PLAYER_WALL_JUMP;
-
-            return;
-
-        }
-
-        if (inputJump && inputHorizontal != 0) {
-
-            JumpingEnter();
-
-            state = STATE.PLAYER_JUMPING;
 
             return;
 
@@ -420,9 +404,6 @@ public class PlayerController : MonoBehaviour {
     void WallJump() {
 
         Flip();
-
-        StopCoroutine("DisallowHorizontalMovement");
-        StartCoroutine("DisallowHorizontalMovement");
 
         velocity.x = horizontalDirection * horizontalSpeed;
 
@@ -576,18 +557,6 @@ public class PlayerController : MonoBehaviour {
     void ResetInputVariables() {
 
         _inputJump = false;
-
-    }
-
-    IEnumerator DisallowHorizontalMovement() {
-
-        inputHorizontal = 0;
-
-        inputHorizontalEnabled = false;
-
-        yield return horizontalMovementDelay;
-
-        inputHorizontalEnabled = true;
 
     }
 
