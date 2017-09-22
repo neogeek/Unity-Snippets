@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour {
     private readonly float horizontalSpeed = 6.0f;
     private readonly float jumpSpeed = 14.0f;
     private readonly int maxAvalibleJumps = 2;
-    private readonly float raycastDistance = 1.0f;
 
     private Vector2 velocity = Vector2.zero;
     private int horizontalDirection = 1;
@@ -445,7 +444,7 @@ public class PlayerController : MonoBehaviour {
             rayCastSize,
             0f,
             Vector2.left,
-            raycastDistance,
+            0f,
             leftLayerMask
         );
 
@@ -454,7 +453,7 @@ public class PlayerController : MonoBehaviour {
             rayCastSize,
             0f,
             Vector2.right,
-            raycastDistance,
+            0f,
             rightLayerMask
         );
 
@@ -463,7 +462,7 @@ public class PlayerController : MonoBehaviour {
             rayCastSize,
             0f,
             Vector2.up,
-            raycastDistance,
+            0f,
             topLayerMask
         );
 
@@ -472,7 +471,7 @@ public class PlayerController : MonoBehaviour {
             rayCastSize,
             0f,
             Vector2.down,
-            raycastDistance,
+            0f,
             bottomLayerMask
         );
 
