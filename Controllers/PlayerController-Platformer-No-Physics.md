@@ -140,8 +140,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if ((inputHorizontal == 1 && (!hitRight.HasValue || hitRight.HasValue && hitRight.Value.x > gameObject.transform.position.x)) ||
-            (inputHorizontal == -1 && (!hitLeft.HasValue || hitLeft.HasValue && hitLeft.Value.x < gameObject.transform.position.x))) {
+        if (inputHorizontal == 1 && (!hitRight.HasValue || hitRight.HasValue && hitRight.Value.x > gameObject.transform.position.x) ||
+            inputHorizontal == -1 && (!hitLeft.HasValue || hitLeft.HasValue && hitLeft.Value.x < gameObject.transform.position.x)) {
 
             state = STATE.PLAYER_RUNNING;
 
@@ -184,8 +184,8 @@ public class PlayerController : MonoBehaviour {
 
         gameObject.transform.position = Move();
 
-        if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
-            hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
+        if (inputHorizontal == 0 || (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
+            (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
 
             state = STATE.PLAYER_IDLE;
 
@@ -193,7 +193,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (!hitBottom.HasValue || hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y) {
+        if (!hitBottom.HasValue || (hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y)) {
 
             state = STATE.PLAYER_FALLING;
 
@@ -247,8 +247,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
-            hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
+        if ((hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
+            (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
 
             WallSlideEnter();
 
@@ -304,8 +304,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x ||
-            hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x) {
+        if ((hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
+            (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
 
             WallSlideEnter();
 
