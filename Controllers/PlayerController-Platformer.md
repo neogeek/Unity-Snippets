@@ -3,6 +3,7 @@
 ```csharp
 using UnityEngine;
 
+[RequireComponent(typeof (BoxCollider2D))]
 [RequireComponent(typeof (Rigidbody2D))]
 public class PlayerController : MonoBehaviour {
 
@@ -18,12 +19,28 @@ public class PlayerController : MonoBehaviour {
     private readonly float jumpForce = 700.0f;
     private readonly int maxJumpCount = 2;
     private readonly float triggerRadius = 0.1f;
-    private readonly float maxWallSlideSpeed = -2.0f;
+    private readonly float maxWallSlideSpeed = -1.0f;
+
+    private bool grounded = false;
+    private bool touchingWall = false;
 
     private float moveHorizontal = 0.0f;
     private int horizontalDirection = 1;
-    private bool jumpPressed = false;
     private int currentJumpCount = 0;
+
+    private bool _inputJump = false;
+    private bool inputJump {
+        get {
+            return _inputJump;
+        }
+        set {
+
+            if (value) {
+                _inputJump = true;
+            }
+
+        }
+    }
 
     void Awake() {
 
@@ -34,11 +51,22 @@ public class PlayerController : MonoBehaviour {
     void Update() {
 
         moveHorizontal = Input.GetAxis("Horizontal");
-        jumpPressed = Input.GetButtonDown("Jump");
+        inputJump = Input.GetButtonDown("Jump");
 
     }
 
     void FixedUpdate() {
+
+        grounded = Physics2D.OverlapCircle(groundTrigger.position, triggerRadius, groundLayers);
+        touchingWall = Physics2D.OverlapCircle(wallTrigger.position, triggerRadius, wallLayers);
+
+        Move();
+        Jump();
+        WallSlide();
+
+    }
+
+    void Move() {
 
         if (Mathf.Abs(moveHorizontal) > 0 && Mathf.Sign(moveHorizontal) != horizontalDirection) {
 
@@ -46,27 +74,15 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        Move();
-        Jump();
+        if (Mathf.Abs(moveHorizontal) > 0) {
 
-    }
+            rb.velocity = new Vector2(moveHorizontal * horizontalSpeed, rb.velocity.y);
 
-    void Move() {
-
-        rb.velocity = new Vector2(moveHorizontal * horizontalSpeed, rb.velocity.y);
+        }
 
     }
 
     void Jump() {
-
-        bool grounded = Physics2D.OverlapCircle(groundTrigger.position, triggerRadius, groundLayers);
-        bool touchingWall = Physics2D.OverlapCircle(wallTrigger.position, triggerRadius, wallLayers);
-
-        if (touchingWall && !grounded && moveHorizontal != 0) {
-
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, maxWallSlideSpeed));
-
-        }
 
         if (grounded) {
 
@@ -74,13 +90,29 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (jumpPressed && currentJumpCount < maxJumpCount) {
+        if (inputJump && currentJumpCount < maxJumpCount) {
 
             rb.velocity = new Vector2(rb.velocity.x, 0);
 
             rb.AddForce(new Vector2(0, jumpForce));
 
             currentJumpCount += 1;
+
+        }
+
+        if (inputJump) {
+
+            _inputJump = false;
+
+        }
+
+    }
+
+    void WallSlide() {
+
+        if (touchingWall && !grounded && moveHorizontal != 0) {
+
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, maxWallSlideSpeed));
 
         }
 
@@ -99,6 +131,7 @@ public class PlayerController : MonoBehaviour {
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(groundTrigger.position, triggerRadius);
+        Gizmos.DrawWireSphere(wallTrigger.position, triggerRadius);
 
     }
 
