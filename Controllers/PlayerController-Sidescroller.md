@@ -20,7 +20,20 @@ public class PlayerController : MonoBehaviour {
     private float moveHorizontal = 0.0f;
     private float moveVertical = 0.0f;
     private int horizontalDirection = 1;
-    private bool punchPressed = false;
+
+    private bool _inputPunch = false;
+    private bool inputPunch {
+        get {
+            return _inputPunch;
+        }
+        set {
+
+            if (value) {
+                _inputPunch = true;
+            }
+
+        }
+    }
 
     void Awake() {
 
@@ -34,13 +47,13 @@ public class PlayerController : MonoBehaviour {
         moveHorizontal = Input.GetAxisRaw("Horizontal");
         moveVertical = Input.GetAxisRaw("Vertical");
 
-        punchPressed = Input.GetButtonDown("Fire1");
+        inputPunch = Input.GetButtonDown("Fire1");
 
     }
 
     void FixedUpdate() {
 
-        if (punchPressed) {
+        if (inputPunch) {
 
             Punch();
 
@@ -79,6 +92,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Punch() {
+
+        _inputPunch = false;
 
         anima.SetTrigger("punching");
 
