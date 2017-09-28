@@ -45,6 +45,7 @@
     - [StartCoroutine](/General/StartCoroutine.md)
     - [yield](/General/yield.md)
 - [Interaction](/Interaction/)
+    - [Click](/Interaction/Click.md)
     - [Dragging](/Interaction/Dragging.md)
 - [Variables](/Variables/)
     - [Date](/Variables/Date.md)
