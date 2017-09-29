@@ -429,7 +429,7 @@ public class PlayerController : MonoBehaviour {
             bottomLayerMask
         );
 
-        if (hitLeftRay) {
+        if (hitLeftRay && hitLeftRay.collider.bounds.min.x <= colliderBounds.max.x) {
 
             hitLeft = new Vector2(hitLeftRay.collider.bounds.max.x + colliderBounds.extents.x, 0);
 
@@ -439,7 +439,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hitRightRay) {
+        if (hitRightRay && hitRightRay.collider.bounds.max.x >= colliderBounds.min.x) {
 
             hitRight = new Vector2(hitRightRay.collider.bounds.min.x - colliderBounds.extents.x, 0);
 
@@ -449,7 +449,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hitTopRay) {
+        if (hitTopRay && hitTopRay.collider.bounds.min.y >= colliderBounds.max.y) {
 
             hitTop = new Vector2(0, hitTopRay.collider.bounds.min.y - colliderBounds.extents.y);
 
@@ -459,7 +459,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hitBottomRay) {
+        if (hitBottomRay && hitBottomRay.collider.bounds.max.y <= colliderBounds.min.y) {
 
             hitBottom = new Vector2(0, hitBottomRay.collider.bounds.max.y + colliderBounds.extents.y);
 
