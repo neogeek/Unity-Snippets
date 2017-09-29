@@ -420,8 +420,6 @@ public class PlayerController : MonoBehaviour {
             bottomLayerMask
         );
 
-        Vector2 position = gameObject.transform.position;
-
         if (hitLeftRay) {
 
             hitLeft = new Vector2(hitLeftRay.collider.bounds.max.x + colliderBounds.extents.x, 0);
