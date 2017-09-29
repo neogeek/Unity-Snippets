@@ -27,20 +27,6 @@ public class FadeController : MonoBehaviour {
 
     }
 
-    public void FadeOut() {
-
-        fadeDirection = 1.0f;
-        fadeEndValue = 1.0f;
-
-    }
-
-    public void FadeIn() {
-
-        fadeDirection = -1.0f;
-        fadeEndValue = 0.0f;
-
-    }
-
     void Update() {
 
         if (isFading) {
@@ -55,6 +41,20 @@ public class FadeController : MonoBehaviour {
 
         GUI.color = fadeColor;
         GUI.DrawTexture(fadeRect, fadeTexture);
+
+    }
+
+    public void FadeOut() {
+
+        fadeDirection = 1.0f;
+        fadeEndValue = 1.0f;
+
+    }
+
+    public void FadeIn() {
+
+        fadeDirection = -1.0f;
+        fadeEndValue = 0.0f;
 
     }
 
