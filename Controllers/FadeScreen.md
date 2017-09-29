@@ -1,9 +1,9 @@
-# FadeController
+# FadeScreen
 
 ```csharp
 using UnityEngine;
 
-public class FadeController : MonoBehaviour {
+public class FadeScreen : MonoBehaviour {
 
     public Color fadeColor = new Color(0, 0, 0, 0.0f);
     public float fadeSpeed = 0.3f;
@@ -67,7 +67,7 @@ using UnityEngine.SceneManagement;
 
 public class SampleController : MonoBehaviour {
 
-    public FadeController fader;
+    public FadeScreen fader;
 
     private bool fadeStarted = false;
 
