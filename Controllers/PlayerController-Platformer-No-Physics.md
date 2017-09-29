@@ -13,17 +13,17 @@ public class PlayerController : MonoBehaviour {
     public LayerMask bottomLayerMask;
 
     public enum STATE {
-        PLAYER_IDLE,
-        PLAYER_RUNNING,
-        PLAYER_FALLING,
-        PLAYER_JUMPING,
-        PLAYER_WALL_SLIDE,
-        PLAYER_WALL_JUMP,
-        PLAYER_WALL_DISMOUNT
+        Idle,
+        Running,
+        Falling,
+        Jumping,
+        WallSlide,
+        WallJump,
+        WallDismount
     }
 
     [SerializeField]
-    private STATE _state = STATE.PLAYER_IDLE;
+    private STATE _state = STATE.Idle;
 
     public STATE state {
         get {
@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour {
         set {
 
             Debug.Log(string.Format("Switched from {0} to {1}.", _state, value));
+
+            Invoke(value.ToString() + "Enter", 0);
 
             _state = value;
 
@@ -69,6 +71,12 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    void Start() {
+
+        state = STATE.Idle;
+
+    }
+
     void Update() {
 
         if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) {
@@ -89,50 +97,19 @@ public class PlayerController : MonoBehaviour {
 
         UpdateHitVectors();
 
-        switch (state) {
+        Invoke(state.ToString(), 0);
 
-            case STATE.PLAYER_IDLE:
-                Idle();
-                break;
-
-            case STATE.PLAYER_RUNNING:
-                Running();
-                break;
-
-            case STATE.PLAYER_FALLING:
-                Falling();
-                break;
-
-            case STATE.PLAYER_JUMPING:
-                Jumping();
-                break;
-
-            case STATE.PLAYER_WALL_SLIDE:
-                WallSlide();
-                break;
-
-            case STATE.PLAYER_WALL_JUMP:
-                WallJump();
-                break;
-
-            case STATE.PLAYER_WALL_DISMOUNT:
-                WallDismount();
-                break;
-
-            default:
-                break;
-
-        }
-
-        ResetInputVariables();
+        Invoke("ResetInputVariables", 0);
 
     }
 
-    void Idle() {
+    private void IdleEnter() {
 
         inputJumpsAvalible = maxAvalibleJumps;
 
-        velocity = Vector2.zero;
+    }
+
+    private void Idle() {
 
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
 
@@ -140,10 +117,12 @@ public class PlayerController : MonoBehaviour {
 
         }
 
+        velocity = Vector2.zero;
+
         if (inputHorizontal == 1 && (!hitRight.HasValue || hitRight.HasValue && hitRight.Value.x > gameObject.transform.position.x) ||
             inputHorizontal == -1 && (!hitLeft.HasValue || hitLeft.HasValue && hitLeft.Value.x < gameObject.transform.position.x)) {
 
-            state = STATE.PLAYER_RUNNING;
+            state = STATE.Running;
 
             return;
 
@@ -151,7 +130,7 @@ public class PlayerController : MonoBehaviour {
 
         if (!hitBottom.HasValue || (hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y)) {
 
-            state = STATE.PLAYER_FALLING;
+            state = STATE.Falling;
 
             return;
 
@@ -159,9 +138,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJump) {
 
-            JumpingEnter();
-
-            state = STATE.PLAYER_JUMPING;
+            state = STATE.Jumping;
 
             return;
 
@@ -169,25 +146,29 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Running() {
+    private void RunningEnter() {
 
         inputJumpsAvalible = maxAvalibleJumps;
 
-        velocity.x = inputHorizontal * horizontalSpeed;
-        velocity.y = 0;
+    }
+
+    private void Running() {
 
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
 
             Flip();
 
         }
+
+        velocity.x = inputHorizontal * horizontalSpeed;
+        velocity.y = 0;
 
         gameObject.transform.position = Move();
 
         if (inputHorizontal == 0 || (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
             (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
 
-            state = STATE.PLAYER_IDLE;
+            state = STATE.Idle;
 
             return;
 
@@ -195,7 +176,7 @@ public class PlayerController : MonoBehaviour {
 
         if (!hitBottom.HasValue || (hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y)) {
 
-            state = STATE.PLAYER_FALLING;
+            state = STATE.Falling;
 
             return;
 
@@ -203,9 +184,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJump) {
 
-            JumpingEnter();
-
-            state = STATE.PLAYER_JUMPING;
+            state = STATE.Jumping;
 
             return;
 
@@ -213,23 +192,17 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void FallingEnter() {
-
-        velocity.y = 0;
-
-    }
-
-    void Falling() {
-
-        if (Mathf.Abs(inputHorizontal) > 0) {
-
-            velocity.x = inputHorizontal * horizontalSpeed;
-
-        }
+    private void Falling() {
 
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
 
             Flip();
+
+        }
+
+        if (Mathf.Abs(inputHorizontal) > 0) {
+
+            velocity.x = inputHorizontal * horizontalSpeed;
 
         }
 
@@ -239,9 +212,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJumpsAvalible > 0 && inputJump) {
 
-            JumpingEnter();
-
-            state = STATE.PLAYER_JUMPING;
+            state = STATE.Jumping;
 
             return;
 
@@ -250,9 +221,7 @@ public class PlayerController : MonoBehaviour {
         if ((hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
             (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
 
-            WallSlideEnter();
-
-            state = STATE.PLAYER_WALL_SLIDE;
+            state = STATE.WallSlide;
 
             return;
 
@@ -260,7 +229,7 @@ public class PlayerController : MonoBehaviour {
 
         if (hitBottom.HasValue && hitBottom.Value.y == gameObject.transform.position.y) {
 
-            state = STATE.PLAYER_RUNNING;
+            state = STATE.Running;
 
             return;
 
@@ -268,7 +237,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void JumpingEnter() {
+    private void JumpingEnter() {
 
         inputJumpsAvalible -= 1;
 
@@ -276,7 +245,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Jumping() {
+    private void Jumping() {
 
         if (Mathf.Abs(inputHorizontal) > 0) {
 
@@ -296,9 +265,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJumpsAvalible > 0 && inputJump) {
 
-            JumpingEnter();
-
-            state = STATE.PLAYER_JUMPING;
+            state = STATE.Jumping;
 
             return;
 
@@ -307,9 +274,7 @@ public class PlayerController : MonoBehaviour {
         if ((hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
             (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
 
-            WallSlideEnter();
-
-            state = STATE.PLAYER_WALL_SLIDE;
+            state = STATE.WallSlide;
 
             return;
 
@@ -317,9 +282,9 @@ public class PlayerController : MonoBehaviour {
 
         if ((hitTop.HasValue && hitTop.Value.y == gameObject.transform.position.y) || velocity.y <= 0) {
 
-            FallingEnter();
+            velocity.y = 0;
 
-            state = STATE.PLAYER_FALLING;
+            state = STATE.Falling;
 
             return;
 
@@ -327,7 +292,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void WallSlideEnter() {
+    private void WallSlideEnter() {
 
         inputJumpsAvalible = maxAvalibleJumps;
 
@@ -335,7 +300,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void WallSlide() {
+    private void WallSlide() {
 
         if (velocity.y > 0) {
 
@@ -351,7 +316,7 @@ public class PlayerController : MonoBehaviour {
 
         if (inputJump) {
 
-            state = STATE.PLAYER_WALL_JUMP;
+            state = STATE.WallJump;
 
             return;
 
@@ -360,7 +325,7 @@ public class PlayerController : MonoBehaviour {
         if ((!hitRight.HasValue || hitRight.Value.x != gameObject.transform.position.x) &&
             (!hitLeft.HasValue || hitLeft.Value.x != gameObject.transform.position.x)) {
 
-            state = STATE.PLAYER_FALLING;
+            state = STATE.Falling;
 
             return;
 
@@ -368,7 +333,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
 
-            state = STATE.PLAYER_WALL_DISMOUNT;
+            state = STATE.WallDismount;
 
             return;
 
@@ -376,7 +341,7 @@ public class PlayerController : MonoBehaviour {
 
         if (hitBottom.HasValue && hitBottom.Value.y == gameObject.transform.position.y) {
 
-            state = STATE.PLAYER_IDLE;
+            state = STATE.Idle;
 
             return;
 
@@ -384,31 +349,27 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void WallJump() {
+    private void WallJump() {
 
         Flip();
 
         velocity.x = horizontalDirection * horizontalSpeed;
 
-        JumpingEnter();
-
-        state = STATE.PLAYER_JUMPING;
+        state = STATE.Jumping;
 
     }
 
-    void WallDismount() {
+    private void WallDismount() {
 
         Flip();
 
         velocity.x = inputHorizontal * horizontalSpeed;
 
-        FallingEnter();
-
-        state = STATE.PLAYER_FALLING;
+        state = STATE.Falling;
 
     }
 
-    void Flip() {
+    private void Flip() {
 
         Vector3 scale = gameObject.transform.localScale;
         horizontalDirection *= -1;
@@ -417,7 +378,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void UpdateHitVectors() {
+    private void UpdateHitVectors() {
 
         Bounds colliderBounds = gameObject.GetComponent<BoxCollider2D>().bounds;
 
@@ -503,7 +464,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    Vector2 Move() {
+    private Vector2 Move() {
 
         Vector2 position = gameObject.transform.position;
 
@@ -537,7 +498,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void ResetInputVariables() {
+    private void ResetInputVariables() {
 
         _inputJump = false;
 
