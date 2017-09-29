@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof (BoxCollider2D))]
 public class PlayerController : MonoBehaviour {
 
     public LayerMask leftLayerMask;
@@ -46,6 +47,8 @@ public class PlayerController : MonoBehaviour {
     private readonly float jumpSpeed = 14.0f;
     private readonly int maxAvalibleJumps = 2;
 
+    private BoxCollider2D boxCollider;
+
     private Vector2 velocity = Vector2.zero;
     private int horizontalDirection = 1;
 
@@ -69,6 +72,12 @@ public class PlayerController : MonoBehaviour {
             }
 
         }
+    }
+
+    void Awake() {
+
+        boxCollider = gameObject.GetComponent<BoxCollider2D>();
+
     }
 
     void Start() {
@@ -380,7 +389,7 @@ public class PlayerController : MonoBehaviour {
 
     private void UpdateHitVectors() {
 
-        Bounds colliderBounds = gameObject.GetComponent<BoxCollider2D>().bounds;
+        Bounds colliderBounds = boxCollider.bounds;
 
         Vector2 rayCastSize = colliderBounds.size * 0.95f;
 
