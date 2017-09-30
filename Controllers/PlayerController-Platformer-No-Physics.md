@@ -41,10 +41,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private readonly float gravity = 20.0f;
     private readonly float wallSlideSpeed = -2.0f;
     private readonly float horizontalSpeed = 6.0f;
-    private readonly float jumpSpeed = 14.0f;
+    private readonly float jumpSpeed = 16.0f;
+    private readonly float gravityMultiplier = 2f;
     private readonly int maxAvalibleJumps = 2;
 
     private BoxCollider2D boxCollider;
@@ -60,15 +60,29 @@ public class PlayerController : MonoBehaviour {
     private Vector2? hitTop;
     private Vector2? hitBottom;
 
-    private bool _inputJump = false;
-    private bool inputJump {
+    private bool _inputJumpPressed = false;
+    private bool inputJumpPressed {
         get {
-            return _inputJump;
+            return _inputJumpPressed;
         }
         set {
 
             if (value) {
-                _inputJump = true;
+                _inputJumpPressed = true;
+            }
+
+        }
+    }
+
+    private bool _inputJumpHeld = false;
+    private bool inputJumpHeld {
+        get {
+            return _inputJumpHeld;
+        }
+        set {
+
+            if (value) {
+                _inputJumpHeld = true;
             }
 
         }
@@ -98,7 +112,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        inputJump = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button16);
+        inputJumpPressed = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button16);
+        inputJumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.Joystick1Button16);
 
     }
 
@@ -145,7 +160,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (inputJump) {
+        if (inputJumpPressed) {
 
             state = STATE.Jumping;
 
@@ -191,7 +206,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (inputJump) {
+        if (inputJumpPressed) {
 
             state = STATE.Jumping;
 
@@ -215,11 +230,11 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        velocity.y -= gravity * Time.deltaTime;
+        velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
 
         gameObject.transform.position = Move();
 
-        if (inputJumpsAvalible > 0 && inputJump) {
+        if (inputJumpsAvalible > 0 && inputJumpPressed) {
 
             state = STATE.Jumping;
 
@@ -268,11 +283,19 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        velocity.y -= gravity * Time.deltaTime;
+        if (!inputJumpHeld) {
+
+            velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
+
+        } else {
+
+            velocity.y += Physics2D.gravity.y * Time.deltaTime;
+
+        }
 
         gameObject.transform.position = Move();
 
-        if (inputJumpsAvalible > 0 && inputJump) {
+        if (inputJumpsAvalible > 0 && inputJumpPressed) {
 
             state = STATE.Jumping;
 
@@ -313,7 +336,7 @@ public class PlayerController : MonoBehaviour {
 
         if (velocity.y > 0) {
 
-            velocity.y -= gravity * Time.deltaTime;
+            velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
         } else {
 
@@ -323,7 +346,7 @@ public class PlayerController : MonoBehaviour {
 
         gameObject.transform.position = Move();
 
-        if (inputJump) {
+        if (inputJumpPressed) {
 
             state = STATE.WallJump;
 
@@ -507,7 +530,8 @@ public class PlayerController : MonoBehaviour {
 
     private void ResetInputVariables() {
 
-        _inputJump = false;
+        _inputJumpPressed = false;
+        _inputJumpHeld = false;
 
     }
 
