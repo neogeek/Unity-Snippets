@@ -22,5 +22,5 @@ $ adb shell am start -S com.amazon.sample.helloworld/com.unity3d.player.UnityPla
 
 ## Reference
 
-- <https://developer.amazon.com/public/solutions/devices/fire-tv/docs/connecting-adb>
-- <https://developer.amazon.com/public/solutions/devices/fire-tv/docs/installing-and-running-your-app>
+- <https://developer.amazon.com/docs/fire-tv/connecting-adb-to-device.html>
+- <https://developer.amazon.com/docs/fire-tv/installing-and-running-your-app.html>
