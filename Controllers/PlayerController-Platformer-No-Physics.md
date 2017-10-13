@@ -137,12 +137,6 @@ public class PlayerController : MonoBehaviour {
 
     private void Idle() {
 
-        if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
-
-            Flip();
-
-        }
-
         velocity.y = 0;
 
         if (velocity.x > 0) {
