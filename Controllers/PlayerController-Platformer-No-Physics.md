@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof (BoxCollider2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class PlayerController : MonoBehaviour {
 
     public LayerMask leftLayerMask;
@@ -43,7 +43,9 @@ public class PlayerController : MonoBehaviour {
 
     private readonly float wallSlideSpeed = -2.0f;
     private readonly float horizontalSpeed = 6.0f;
-    private readonly float jumpSpeed = 16.0f;
+    private readonly float horizontalResistance = 0.02f;
+    private readonly float lowJumpSpeed = 10.0f;
+    private readonly float highJumpSpeed = 15.0f;
     private readonly float gravityMultiplier = 2f;
     private readonly int maxAvalibleJumps = 2;
 
@@ -141,7 +143,19 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        velocity = Vector2.zero;
+        velocity.y = 0;
+
+        if (velocity.x > 0) {
+
+            velocity.x = Mathf.Max(velocity.x - boxCollider.friction, 0);
+
+        } else if (velocity.x < 0) {
+
+            velocity.x = Mathf.Min(velocity.x + boxCollider.friction, 0);
+
+        }
+
+        gameObject.transform.position = Move();
 
         if (inputHorizontal == 1 && (!hitRight.HasValue || hitRight.HasValue && hitRight.Value.x > gameObject.transform.position.x) ||
             inputHorizontal == -1 && (!hitLeft.HasValue || hitLeft.HasValue && hitLeft.Value.x < gameObject.transform.position.x)) {
@@ -184,7 +198,12 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        velocity.x = inputHorizontal * horizontalSpeed;
+        if (Mathf.Abs(inputHorizontal) > 0) {
+
+            velocity.x = inputHorizontal * horizontalSpeed;
+
+        }
+
         velocity.y = 0;
 
         gameObject.transform.position = Move();
@@ -228,6 +247,14 @@ public class PlayerController : MonoBehaviour {
 
             velocity.x = inputHorizontal * horizontalSpeed;
 
+        } else if (velocity.x > 0) {
+
+            velocity.x = Mathf.Max(velocity.x - horizontalResistance, 0);
+
+        } else if (velocity.x < 0) {
+
+            velocity.x = Mathf.Min(velocity.x + horizontalResistance, 0);
+
         }
 
         velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
@@ -265,17 +292,23 @@ public class PlayerController : MonoBehaviour {
 
         inputJumpsAvalible -= 1;
 
-        velocity.y = jumpSpeed;
+        velocity.y = highJumpSpeed;
+
+        Invoke("SetJumpSpeed", 0.1f);
+
+    }
+
+    private void SetJumpSpeed() {
+
+        if (!inputJumpHeld) {
+
+            velocity.y -= highJumpSpeed - lowJumpSpeed;
+
+        }
 
     }
 
     private void Jumping() {
-
-        if (Mathf.Abs(inputHorizontal) > 0) {
-
-            velocity.x = inputHorizontal * horizontalSpeed;
-
-        }
 
         if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
 
@@ -283,15 +316,21 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (!inputJumpHeld) {
+        if (Mathf.Abs(inputHorizontal) > 0) {
 
-            velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
+            velocity.x = inputHorizontal * horizontalSpeed;
 
-        } else {
+        } else if (velocity.x > 0) {
 
-            velocity.y += Physics2D.gravity.y * Time.deltaTime;
+            velocity.x = Mathf.Max(velocity.x - horizontalResistance, 0);
+
+        } else if (velocity.x < 0) {
+
+            velocity.x = Mathf.Min(velocity.x + horizontalResistance, 0);
 
         }
+
+        velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
         gameObject.transform.position = Move();
 
@@ -363,7 +402,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (Mathf.Abs(inputHorizontal) > 0 && inputHorizontal != horizontalDirection) {
+        if (inputHorizontal == -1 && !hitLeft.HasValue || inputHorizontal == 1 && !hitRight.HasValue) {
 
             state = STATE.WallDismount;
 
