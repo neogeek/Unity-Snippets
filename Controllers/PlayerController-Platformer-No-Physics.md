@@ -1,5 +1,7 @@
 # PlayerController.cs (Platformer w/ no Physics)
 
+[Demo](http://sandbox.scottdoxey.com/playercontroller/)
+
 ```csharp
 using System;
 using System.Collections;
