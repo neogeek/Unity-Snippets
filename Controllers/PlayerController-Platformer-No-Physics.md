@@ -41,26 +41,30 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private readonly float wallSlideSpeed = -2.0f;
-    private readonly float horizontalSpeed = 6.0f;
+    private readonly float horizontalSpeed = 7.0f;
     private readonly float horizontalResistance = 0.02f;
     private readonly float lowJumpSpeed = 10.0f;
     private readonly float highJumpSpeed = 15.0f;
     private readonly float gravityMultiplier = 2f;
+    private readonly float wallSlideSpeed = -2.0f;
     private readonly int maxAvalibleJumps = 2;
 
     private BoxCollider2D boxCollider;
 
+    private Vector2 position = Vector2.zero;
     private Vector2 velocity = Vector2.zero;
-    private int horizontalDirection = 1;
 
     private float inputHorizontal = 0;
     private int inputJumpsAvalible = 0;
+
+    private int horizontalDirection = 1;
 
     private Vector2? hitLeft;
     private Vector2? hitRight;
     private Vector2? hitTop;
     private Vector2? hitBottom;
+
+    private float hitBottomBoxColliderFriction = 0;
 
     private bool _inputJumpPressed = false;
     private bool inputJumpPressed {
@@ -94,6 +98,8 @@ public class PlayerController : MonoBehaviour {
 
         boxCollider = gameObject.GetComponent<BoxCollider2D>();
 
+        position = gameObject.transform.position;
+
     }
 
     void Start() {
@@ -106,7 +112,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0) {
 
-            inputHorizontal = Mathf.Sign(Input.GetAxisRaw("Horizontal"));
+            inputHorizontal = Input.GetAxisRaw("Horizontal");
 
         } else {
 
@@ -116,6 +122,8 @@ public class PlayerController : MonoBehaviour {
 
         inputJumpPressed = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Joystick1Button16);
         inputJumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.Joystick1Button16);
+
+        gameObject.transform.position = position;
 
     }
 
@@ -137,22 +145,22 @@ public class PlayerController : MonoBehaviour {
 
     private void Idle() {
 
-        velocity.y = 0;
-
         if (velocity.x > 0) {
 
-            velocity.x = Mathf.Max(velocity.x - boxCollider.friction, 0);
+            velocity.x = Mathf.Max(velocity.x - hitBottomBoxColliderFriction, 0);
 
         } else if (velocity.x < 0) {
 
-            velocity.x = Mathf.Min(velocity.x + boxCollider.friction, 0);
+            velocity.x = Mathf.Min(velocity.x + hitBottomBoxColliderFriction, 0);
 
         }
 
-        gameObject.transform.position = Move();
+        velocity.y = 0;
 
-        if (inputHorizontal == 1 && (!hitRight.HasValue || hitRight.HasValue && hitRight.Value.x > gameObject.transform.position.x) ||
-            inputHorizontal == -1 && (!hitLeft.HasValue || hitLeft.HasValue && hitLeft.Value.x < gameObject.transform.position.x)) {
+        position = Move();
+
+        if (inputHorizontal == 1 && (!hitRight.HasValue || hitRight.HasValue && hitRight.Value.x > position.x) ||
+            inputHorizontal == -1 && (!hitLeft.HasValue || hitLeft.HasValue && hitLeft.Value.x < position.x)) {
 
             state = STATE.Running;
 
@@ -160,7 +168,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (!hitBottom.HasValue || (hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y)) {
+        if (!hitBottom.HasValue || (hitBottom.HasValue && hitBottom.Value.y < position.y)) {
 
             state = STATE.Falling;
 
@@ -200,10 +208,10 @@ public class PlayerController : MonoBehaviour {
 
         velocity.y = 0;
 
-        gameObject.transform.position = Move();
+        position = Move();
 
-        if (inputHorizontal == 0 || (hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
-            (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
+        if (inputHorizontal == 0 || (hitRight.HasValue && hitRight.Value.x == position.x) ||
+            (hitLeft.HasValue && hitLeft.Value.x == position.x)) {
 
             state = STATE.Idle;
 
@@ -211,7 +219,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (!hitBottom.HasValue || (hitBottom.HasValue && hitBottom.Value.y < gameObject.transform.position.y)) {
+        if (!hitBottom.HasValue || (hitBottom.HasValue && hitBottom.Value.y < position.y)) {
 
             state = STATE.Falling;
 
@@ -253,7 +261,7 @@ public class PlayerController : MonoBehaviour {
 
         velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
 
-        gameObject.transform.position = Move();
+        position = Move();
 
         if (inputJumpsAvalible > 0 && inputJumpPressed) {
 
@@ -263,8 +271,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if ((hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
-            (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
+        if ((hitRight.HasValue && hitRight.Value.x == position.x) ||
+            (hitLeft.HasValue && hitLeft.Value.x == position.x)) {
 
             state = STATE.WallSlide;
 
@@ -272,7 +280,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hitBottom.HasValue && hitBottom.Value.y == gameObject.transform.position.y) {
+        if (hitBottom.HasValue && hitBottom.Value.y == position.y) {
 
             state = STATE.Idle;
 
@@ -326,7 +334,16 @@ public class PlayerController : MonoBehaviour {
 
         velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
-        gameObject.transform.position = Move();
+        position = Move();
+
+        if (inputJumpPressed && ((hitRight.HasValue && hitRight.Value.x == position.x) ||
+                (hitLeft.HasValue && hitLeft.Value.x == position.x))) {
+
+            state = STATE.WallJump;
+
+            return;
+
+        }
 
         if (inputJumpsAvalible > 0 && inputJumpPressed) {
 
@@ -336,16 +353,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if ((hitRight.HasValue && hitRight.Value.x == gameObject.transform.position.x) ||
-            (hitLeft.HasValue && hitLeft.Value.x == gameObject.transform.position.x)) {
-
-            state = STATE.WallSlide;
-
-            return;
-
-        }
-
-        if ((hitTop.HasValue && hitTop.Value.y == gameObject.transform.position.y) || velocity.y <= 0) {
+        if ((hitTop.HasValue && hitTop.Value.y == position.y) || velocity.y <= 0) {
 
             velocity.y = 0;
 
@@ -361,15 +369,17 @@ public class PlayerController : MonoBehaviour {
 
         inputJumpsAvalible = maxAvalibleJumps;
 
-        velocity.x = 0;
+        velocity.y = 0;
 
     }
 
     private void WallSlide() {
 
-        if (velocity.y > 0) {
+        velocity.x = 0;
 
-            velocity.y += Physics2D.gravity.y * Time.deltaTime;
+        if (inputHorizontal == 0) {
+
+            velocity.y += Physics2D.gravity.y * gravityMultiplier * Time.deltaTime;
 
         } else {
 
@@ -377,7 +387,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        gameObject.transform.position = Move();
+        position = Move();
 
         if (inputJumpPressed) {
 
@@ -387,8 +397,8 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if ((!hitRight.HasValue || hitRight.Value.x != gameObject.transform.position.x) &&
-            (!hitLeft.HasValue || hitLeft.Value.x != gameObject.transform.position.x)) {
+        if ((!hitRight.HasValue || hitRight.Value.x != position.x) &&
+            (!hitLeft.HasValue || hitLeft.Value.x != position.x)) {
 
             state = STATE.Falling;
 
@@ -404,7 +414,7 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (hitBottom.HasValue && hitBottom.Value.y == gameObject.transform.position.y) {
+        if (hitBottom.HasValue && hitBottom.Value.y == position.y) {
 
             state = STATE.Idle;
 
@@ -425,8 +435,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void WallDismount() {
-
-        Flip();
 
         velocity.x = inputHorizontal * horizontalSpeed;
 
@@ -521,9 +529,13 @@ public class PlayerController : MonoBehaviour {
 
             hitBottom = new Vector2(0, hitBottomRay.collider.bounds.max.y + colliderBounds.extents.y);
 
+            hitBottomBoxColliderFriction = hitBottomRay.collider.friction;
+
         } else {
 
             hitBottom = null;
+
+            hitBottomBoxColliderFriction = 0;
 
         }
 
@@ -531,35 +543,35 @@ public class PlayerController : MonoBehaviour {
 
     private Vector2 Move() {
 
-        Vector2 position = gameObject.transform.position;
+        Vector2 nextPosition = position;
 
-        position += velocity * Time.deltaTime;
+        nextPosition += velocity * Time.deltaTime;
 
         if (hitLeft.HasValue) {
 
-            position.x = Mathf.Max(position.x, hitLeft.Value.x);
+            nextPosition.x = Mathf.Max(nextPosition.x, hitLeft.Value.x);
 
         }
 
         if (hitRight.HasValue) {
 
-            position.x = Mathf.Min(position.x, hitRight.Value.x);
+            nextPosition.x = Mathf.Min(nextPosition.x, hitRight.Value.x);
 
         }
 
         if (hitTop.HasValue) {
 
-            position.y = Mathf.Min(position.y, hitTop.Value.y);
+            nextPosition.y = Mathf.Min(nextPosition.y, hitTop.Value.y);
 
         }
 
         if (hitBottom.HasValue) {
 
-            position.y = Mathf.Max(position.y, hitBottom.Value.y);
+            nextPosition.y = Mathf.Max(nextPosition.y, hitBottom.Value.y);
 
         }
 
-        return position;
+        return nextPosition;
 
     }
 
