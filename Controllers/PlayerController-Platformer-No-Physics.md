@@ -344,6 +344,12 @@ public class PlayerController : MonoBehaviour {
 
         velocity.y += Physics2D.gravity.y * Time.deltaTime;
 
+        if ((velocity.x > 0 && hitRight == position.x) || (velocity.x < 0 && hitLeft == position.x)) {
+
+            velocity.x = 0;
+
+        }
+
         position = MoveStep(position, velocity);
 
         if (inputJumpPressed && (hitRight == position.x || hitLeft == position.x)) {
