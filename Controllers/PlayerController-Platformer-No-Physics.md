@@ -496,6 +496,8 @@ public class PlayerController : MonoBehaviour {
 
     private void WallJump() {
 
+        inputJumpsAvalible = maxAvalibleJumps;
+
         Flip();
 
         velocity.x = horizontalDirection * horizontalSpeed;
