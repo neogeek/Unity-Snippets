@@ -23,6 +23,7 @@
 - [Editor](/Editor/)
     - [Button](/Editor/Button.md)
     - [ContextMenu](/Editor/ContextMenu.md)
+    - [File Dialog](/Editor/FileDialog.md)
 - [Debug](/Debug/)
     - [Gizmos](/Debug/Gizmos.md)
     - [GUI](/Debug/GUI.md)
