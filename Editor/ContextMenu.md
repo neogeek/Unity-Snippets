@@ -1,0 +1,20 @@
+# ContextMenu
+
+![](https://i.imgur.com/PKTjmK2.png)
+
+```csharp
+using UnityEngine;
+
+public class SampleController : MonoBehaviour {
+
+    public int randomNumber = 0;
+
+    [ContextMenu("Generate Random Number")]
+    void GenerateRandomNumber() {
+
+        randomNumber = Random.Range(1, 10);
+
+    }
+
+}
+```
