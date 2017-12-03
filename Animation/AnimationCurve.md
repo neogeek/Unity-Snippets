@@ -10,12 +10,12 @@ public class SampleController : MonoBehaviour {
     public AnimationCurve animationCurve = AnimationCurve.Linear(0, 0, 1, 1);
     public bool shouldAnimate = true;
 
-    private Vector3 startSize;
+    private Vector3 startScale;
     private float activeTime = 0;
 
     void Awake() {
 
-        startSize = gameObject.transform.localScale;
+        startScale = gameObject.transform.localScale;
 
         activeTime = Time.time;
 
@@ -35,7 +35,7 @@ public class SampleController : MonoBehaviour {
 
         activeTime = activeTime + Time.deltaTime;
 
-        gameObject.transform.localScale = startSize * animationCurve.Evaluate(activeTime);
+        gameObject.transform.localScale = startScale * animationCurve.Evaluate(activeTime);
 
     }
 
