@@ -20,6 +20,8 @@
     - [PlayerController (Platformer)](/Controllers/PlayerController-Platformer.md)
     - [PlayerController (Sidescroller)](/Controllers/PlayerController-Sidescroller.md)
     - [ScreenShake](/Controllers/ScreenShake.md)
+- [Editor](/Editor/)
+    - [Button](/Editor/Button.md)
 - [Debug](/Debug/)
     - [Gizmos](/Debug/Gizmos.md)
     - [GUI](/Debug/GUI.md)
