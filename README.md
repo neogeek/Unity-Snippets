@@ -2,6 +2,8 @@
 
 > A collection of code snippets I found useful while coding in Unity.
 
+- [Animation](/Animation/)
+    - [AnimationCurve](/Animation/AnimationCurve.md)
 - [Audio](/Audio/)
 - [Classes](/Classes/)
     - [GridManager](/Classes/GridManager.md)
