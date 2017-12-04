@@ -7,6 +7,7 @@
 - [Audio](/Audio/)
 - [Classes](/Classes/)
     - [GridManager](/Classes/GridManager.md)
+    - [SimpleGameObject](/Classes/SimpleGameObject.md)
 - [Collections](/Collections/)
     - [Lists](/Collections/Lists.md)
 - [Components](/Components/)
