@@ -33,8 +33,8 @@ namespace SGO {
 
     [System.Serializable]
     public struct GameObject {
-        public UnityEngine.Transform transform;
-        public UnityEngine.BoxCollider boxCollider;
+        public SGO.Transform transform;
+        public SGO.BoxCollider boxCollider;
     }
 
     [System.Serializable]
