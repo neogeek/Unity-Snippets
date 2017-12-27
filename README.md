@@ -34,8 +34,6 @@
     - [CSV](/FileSystem/CSV.md)
     - [File](/FileSystem/File.md)
     - [JSON](/FileSystem/JSON.md)
-- [Functions](/Functions/)
-    - [CalculateParentBounds](/Functions/CalculateParentBounds.md)
 - [GameObjects](/GameObjects/)
     - [Movement](/GameObjects/Movement.md)
     - [Renderer](/GameObjects/Renderer.md)
