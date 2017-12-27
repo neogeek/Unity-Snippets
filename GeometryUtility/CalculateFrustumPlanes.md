@@ -14,12 +14,15 @@ public class SampleController : MonoBehaviour {
 
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
+        GameObject cameraPlanesWrapper = new GameObject("Camera Planes");
+
         for (int i = 0; i < planes.Length; i += 1) {
 
             GameObject plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
             plane.name = string.Format("Plane {0}", i.ToString());
             plane.layer = (int) Mathf.Log(cameraPlanesLayerMask.value, 2);
+            plane.transform.parent = cameraPlanesWrapper.transform;
 
             plane.GetComponent<Renderer>().enabled = false;
 
