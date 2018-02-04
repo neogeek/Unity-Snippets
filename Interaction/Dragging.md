@@ -31,11 +31,14 @@ public class SampleController : MonoBehaviour
 
             RaycastHit hit;
 
-            Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask);
+            if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask))
+            {
 
-            dragObjectTransform = hit.transform;
-            dragDistance = hit.distance;
-            dragOffset = dragObjectTransform.transform.position - hit.point;
+                dragObjectTransform = hit.transform;
+                dragDistance = hit.distance;
+                dragOffset = dragObjectTransform.transform.position - hit.point;
+
+            }
 
         }
         else if (Input.GetMouseButtonUp(0))
