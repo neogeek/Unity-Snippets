@@ -5,21 +5,54 @@
 ```csharp
 using UnityEngine;
 
-public class SampleController : MonoBehaviour {
+public class SampleController : MonoBehaviour
+{
 
-    private Vector3 GetMousePosition() {
+    public LayerMask layerMask = ~0;
 
-        return Camera.main.ScreenToWorldPoint(new Vector3(
-            Input.mousePosition.x,
-            Input.mousePosition.y,
-            Camera.main.WorldToScreenPoint(gameObject.transform.position).z
-        ));
+    private Camera mainCamera;
+
+    private Transform dragObjectTransform;
+    private float dragDistance = 0;
+    private Vector3 dragOffset = Vector3.zero;
+
+    private void Awake()
+    {
+
+        mainCamera = Camera.main;
 
     }
 
-    void OnMouseDrag() {
+    private void Update()
+    {
 
-        gameObject.transform.position = GetMousePosition();
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            RaycastHit hit;
+
+            Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask);
+
+            dragObjectTransform = hit.transform;
+            dragDistance = hit.distance;
+            dragOffset = dragObjectTransform.transform.position - hit.point;
+
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+
+            dragObjectTransform = null;
+            dragDistance = 0;
+            dragOffset = Vector3.zero;
+
+        }
+
+        if (dragObjectTransform != null && Input.GetMouseButton(0))
+        {
+
+            dragObjectTransform.position = mainCamera.ScreenPointToRay(Input.mousePosition).GetPoint(dragDistance) + dragOffset;
+
+        }
 
     }
 
