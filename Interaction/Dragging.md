@@ -5,6 +5,32 @@
 ```csharp
 using UnityEngine;
 
+public class SampleController : MonoBehaviour {
+
+    private Vector3 GetMousePosition() {
+
+        return Camera.main.ScreenToWorldPoint(new Vector3(
+            Input.mousePosition.x,
+            Input.mousePosition.y,
+            Camera.main.WorldToScreenPoint(gameObject.transform.position).z
+        ));
+
+    }
+
+    void OnMouseDrag() {
+
+        gameObject.transform.position = GetMousePosition();
+
+    }
+
+}
+```
+
+## Drag GameObject From Point
+
+```csharp
+using UnityEngine;
+
 public class SampleController : MonoBehaviour
 {
 
