@@ -53,6 +53,7 @@
 - [Interaction](/Interaction/)
     - [Click](/Interaction/Click.md)
     - [Dragging](/Interaction/Dragging.md)
+    - [RotateCamera](/Interaction/RotateCamera.md)
 - [Variables](/Variables/)
     - [Date](/Variables/Date.md)
     - [Struct](/Variables/Struct.md)
