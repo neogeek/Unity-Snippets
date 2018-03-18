@@ -60,26 +60,36 @@ public class SampleController : MonoBehaviour
             if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerMask))
             {
 
-                dragObjectTransform = hit.transform;
-                dragDistance = hit.distance;
-                dragOffset = dragObjectTransform.transform.position - hit.point;
+                if (hit.transform.gameObject == gameObject)
+                {
+
+                    dragObjectTransform = hit.transform;
+                    dragDistance = hit.distance;
+                    dragOffset = dragObjectTransform.transform.position - hit.point;
+
+                }
 
             }
 
         }
-        else if (Input.GetMouseButtonUp(0))
+
+        if (dragObjectTransform != null)
         {
 
-            dragObjectTransform = null;
-            dragDistance = 0;
-            dragOffset = Vector3.zero;
+            if (Input.GetMouseButton(0))
+            {
 
-        }
+                dragObjectTransform.position = mainCamera.ScreenPointToRay(Input.mousePosition).GetPoint(dragDistance) + dragOffset;
 
-        if (dragObjectTransform != null && Input.GetMouseButton(0))
-        {
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
 
-            dragObjectTransform.position = mainCamera.ScreenPointToRay(Input.mousePosition).GetPoint(dragDistance) + dragOffset;
+                dragObjectTransform = null;
+                dragDistance = 0;
+                dragOffset = Vector3.zero;
+
+            }
 
         }
 
